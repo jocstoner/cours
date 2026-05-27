@@ -1,0 +1,181 @@
+{%- assign current_filter = request.param_value('gamme') | default: 'all' -%}
+
+<header class="g-collection-header"
+        style="background:{%- if collection.metafields.custom.tint_bg.value != blank -%}{{ collection.metafields.custom.tint_bg.value }}{%- else -%}var(--accent-tint){%- endif -%};transition:background .6s;">
+  <div class="g-collection-header__blob" aria-hidden="true">
+    {%- render 'blob', index: 1, color: collection.metafields.custom.tint_color.value | default: 'var(--accent)', size: 500, opacity: 0.45 -%}
+  </div>
+  <div class="g-collection-header__inner">
+    <div>
+      <span class="g-pill" style="background:var(--ink);color:var(--bg);">
+        {{ collection.products_count }} produit{{ collection.products_count | plural: '', 's' }}
+      </span>
+      <h1 class="g-collection-header__title">
+        {%- if collection.handle == 'all' -%}
+          Toute la <span style="color:var(--accent);">boutique</span>.
+        {%- else -%}
+          {{ collection.metafields.custom.emoji.value | default: '' }}
+          {{ collection.title }}
+        {%- endif -%}
+      </h1>
+      {%- unless collection.description == blank -%}
+        <p class="g-collection-header__desc">{{ collection.description | strip_html | truncate: 200 }}</p>
+      {%- endunless -%}
+    </div>
+    <div class="g-collection-header__sort">
+      <label for="g-sort-select" style="font:700 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;">Trier</label>
+      <select id="g-sort-select"
+              class="g-sort-select"
+              onchange="if(this.value){window.location=this.value;}"
+              style="background:var(--bg);border:2.5px solid var(--ink);border-radius:99px;padding:8px 14px;font:700 13px/1 var(--mono);color:var(--ink);cursor:pointer;box-shadow:3px 3px 0 var(--ink);">
+        <option value="{{ collection.url }}?sort_by=created-descending"
+          {%- if collection.sort_by == 'created-descending' %} selected{%- endif -%}>Nouveautés</option>
+        <option value="{{ collection.url }}?sort_by=price-ascending"
+          {%- if collection.sort_by == 'price-ascending' %} selected{%- endif -%}>Prix ↑</option>
+        <option value="{{ collection.url }}?sort_by=price-descending"
+          {%- if collection.sort_by == 'price-descending' %} selected{%- endif -%}>Prix ↓</option>
+        <option value="{{ collection.url }}?sort_by=best-selling"
+          {%- if collection.sort_by == 'best-selling' %} selected{%- endif -%}>Best-sellers</option>
+      </select>
+    </div>
+  </div>
+
+  {%- if collection.all_tags.size > 0 -%}
+    <div class="g-collection-chips">
+      <a href="{{ collection.url }}"
+         class="g-chip{%- unless current_filter != 'all' %} g-chip--on{%- endunless -%}">
+        ✨ Tout
+      </a>
+      {%- for tag in collection.all_tags -%}
+        <a href="{{ collection.url }}/{{ tag | handleize }}"
+           class="g-chip{%- if current_filter == tag %} g-chip--on{%- endif -%}">
+          {{ tag }}
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</header>
+
+<section style="padding:var(--section-y) var(--page-x);">
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    <div class="g-collection-grid">
+      {%- for product in collection.products -%}
+        {%- render 'product-card', product: product, image_style: section.settings.image_style -%}
+      {%- else -%}
+        <p style="grid-column:1/-1;text-align:center;font:500 18px/1.5 var(--body);color:var(--ink-mute);padding:60px 0;">
+          Aucun produit dans cette collection.
+        </p>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="g-pagination" aria-label="Pagination">
+        {%- if paginate.previous -%}
+          <a href="{{ paginate.previous.url }}" class="g-btn-ghost">← Précédent</a>
+        {%- endif -%}
+        <span style="font:700 14px/1 var(--mono);letter-spacing:.06em;color:var(--ink-mute);">
+          {{ paginate.current_page }} / {{ paginate.pages }}
+        </span>
+        {%- if paginate.next -%}
+          <a href="{{ paginate.next.url }}" class="g-btn-ghost">Suivant →</a>
+        {%- endif -%}
+      </nav>
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+<style>
+  .g-collection-header {
+    padding: calc(var(--hero-y) * 0.7) var(--page-x) var(--section-y);
+    border-bottom: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .g-collection-header__blob {
+    position: absolute;
+    right: -80px;
+    top: -40px;
+    pointer-events: none;
+  }
+  .g-collection-header__inner {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .g-collection-header__title {
+    font: 900 clamp(64px, 8vw, 130px)/0.92 var(--display);
+    letter-spacing: -0.04em;
+    margin: 20px 0 0;
+  }
+  .g-collection-header__desc {
+    margin-top: 18px;
+    font: 500 19px/1.55 var(--body);
+    max-width: 540px;
+  }
+  .g-collection-header__sort { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .g-collection-chips {
+    display: flex;
+    gap: 10px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .g-chip {
+    display: inline-flex;
+    padding: 10px 18px;
+    border: 2.5px solid var(--ink);
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--ink);
+    font: 700 14px/1 var(--body);
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--ink);
+    transition: all .2s;
+  }
+  .g-chip:hover,
+  .g-chip--on {
+    background: var(--ink);
+    color: var(--bg);
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: translate(-1px, -1px);
+  }
+  .g-collection-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--gap-x);
+  }
+  .g-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 60px;
+  }
+  @media (max-width: 1024px) {
+    .g-collection-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .g-collection-grid { grid-template-columns: 1fr; }
+    .g-collection-header__inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .g-collection-header__title { font-size: clamp(48px, 12vw, 72px); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "range",  "id": "products_per_page", "label": "Produits par page", "min": 8, "max": 24, "step": 4, "default": 16 },
+    { "type": "select", "id": "image_style",        "label": "Style image",       "default": "rounded",
+      "options": [
+        { "value": "rounded", "label": "Arrondi" },
+        { "value": "square",  "label": "Carré" },
+        { "value": "blob",    "label": "Blob" }
+      ]
+    }
+  ]
+}
+{% endschema %}

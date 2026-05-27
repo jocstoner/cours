@@ -1,0 +1,29 @@
+{% comment %}
+  Blob SVG — Goûtu theme
+  Usage: {% render 'blob', index: 0, color: '#FF6A00', size: 300 %}
+  index: 0-3 (4 shapes)
+{% endcomment %}
+
+{%- assign blob_i     = index | default: 0 | modulo: 4 -%}
+{%- assign blob_color = color | default: 'var(--accent)' -%}
+{%- assign blob_size  = size  | default: 300 -%}
+{%- assign blob_op    = opacity | default: 1 -%}
+
+{%- capture blob_path -%}
+  {%- case blob_i -%}
+    {%- when 0 -%}polygon(50% 0%, 80% 8%, 100% 35%, 96% 70%, 75% 95%, 40% 100%, 10% 80%, 0% 50%, 8% 18%)
+    {%- when 1 -%}polygon(30% 0%, 70% 5%, 98% 28%, 100% 65%, 80% 95%, 45% 100%, 12% 85%, 0% 55%, 5% 20%)
+    {%- when 2 -%}polygon(40% 0%, 75% 4%, 100% 30%, 98% 68%, 78% 98%, 38% 100%, 8% 78%, 0% 42%, 12% 15%)
+    {%- else -%}polygon(55% 0%, 88% 12%, 100% 45%, 90% 80%, 65% 100%, 30% 98%, 5% 75%, 0% 38%, 22% 8%)
+  {%- endcase -%}
+{%- endcapture -%}
+
+<div style="
+  width: {{ blob_size }}px;
+  height: {{ blob_size }}px;
+  background: {{ blob_color }};
+  clip-path: {{ blob_path | strip }};
+  opacity: {{ blob_op }};
+  flex-shrink: 0;
+  {% if style %}{{ style }}{% endif %}
+" aria-hidden="true"></div>

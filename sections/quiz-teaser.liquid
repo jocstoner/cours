@@ -1,0 +1,71 @@
+<section style="padding:var(--section-y) var(--page-x);">
+  <div class="g-quiz-teaser">
+    <div class="g-quiz-teaser__blob-r" aria-hidden="true">
+      {%- render 'blob', index: 3, color: 'var(--accent)', size: 400, opacity: 0.85 -%}
+    </div>
+    <div class="g-quiz-teaser__blob-l" aria-hidden="true">
+      {%- render 'blob', index: 1, color: 'var(--accent)', size: 280, opacity: 0.85 -%}
+    </div>
+    <div class="g-quiz-teaser__content">
+      <span class="g-pill" style="background:var(--accent);">
+        {{ section.settings.eyebrow | default: '🪄 Quiz personnalisé · 1 min' }}
+      </span>
+      <h2 class="g-quiz-teaser__title">{{ section.settings.title | default: "Tu hésites ?<br><span style='color:var(--accent)'>Réponds à 5 questions.</span>" }}</h2>
+      <p class="g-quiz-teaser__body">{{ section.settings.body | default: "On te concocte une trousse de 3 produits selon tes besoins du moment : sommeil, digestion, énergie, cuisine, soin de la peau." }}</p>
+      <a href="{{ section.settings.cta_url | default: '#quiz' }}" class="g-btn-primary" style="margin-top:28px;">
+        {{ section.settings.cta_label | default: "C'est parti" }} →
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .g-quiz-teaser {
+    position: relative;
+    background: var(--ink);
+    color: var(--bg);
+    padding: clamp(50px, 6vw, 90px);
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 8px 8px 0 var(--accent);
+    border: var(--border);
+  }
+  .g-quiz-teaser__blob-r {
+    position: absolute;
+    right: -100px;
+    top: -60px;
+    pointer-events: none;
+  }
+  .g-quiz-teaser__blob-l {
+    position: absolute;
+    left: -60px;
+    bottom: -80px;
+    pointer-events: none;
+  }
+  .g-quiz-teaser__content { position: relative; max-width: 720px; }
+  .g-quiz-teaser__title {
+    font: 900 clamp(40px, 5.5vw, 84px)/0.95 var(--display);
+    letter-spacing: -0.03em;
+    margin: 20px 0 0;
+  }
+  .g-quiz-teaser__body {
+    margin-top: 20px;
+    font: 500 18px/1.55 var(--body);
+    max-width: 540px;
+    opacity: 0.85;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Quiz teaser",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",   "label": "Puce",      "default": "🪄 Quiz personnalisé · 1 min" },
+    { "type": "richtext", "id": "title",     "label": "Titre" },
+    { "type": "textarea", "id": "body",      "label": "Corps du texte" },
+    { "type": "text",     "id": "cta_label", "label": "Bouton",    "default": "C'est parti" },
+    { "type": "url",      "id": "cta_url",   "label": "Lien" }
+  ],
+  "presets": [{ "name": "Quiz teaser" }]
+}
+{% endschema %}

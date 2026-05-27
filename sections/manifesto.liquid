@@ -1,0 +1,97 @@
+<section class="g-manifesto" style="padding:var(--section-y) var(--page-x);background:var(--accent-tint);border-top:var(--border);border-bottom:var(--border);position:relative;overflow:hidden;transition:background .6s;">
+  <div class="g-manifesto__blob" aria-hidden="true">
+    {%- render 'blob', index: 2, color: 'var(--accent)', size: 420, opacity: 0.55 -%}
+  </div>
+  <div class="g-manifesto__inner">
+    <div>
+      <span class="g-pill" style="background:var(--ink);color:var(--bg);">
+        {{ section.settings.label | default: 'Le manifesto' }}
+      </span>
+    </div>
+    <div>
+      <h2 class="g-manifesto__title">{{ section.settings.title | default: 'Soigner <em>vraiment</em>,<br>sans renoncer au <em>goûter.</em>' }}</h2>
+      <p class="g-manifesto__body">{{ section.settings.body | default: "On en avait assez des trucs « bons pour la santé » qu'on prend en se forçant. Chez Goûtu, chaque produit est aussi délicieux qu'efficace. Sinon, on ne le vend pas. Voilà." }}</p>
+      <div class="g-manifesto__pills">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'pill' -%}
+            <span class="g-pill" style="background:var(--bg);" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </span>
+          {%- endif -%}
+        {%- else -%}
+          <span class="g-pill" style="background:var(--bg);">🌿 100% bio</span>
+          <span class="g-pill" style="background:var(--bg);">🇫🇷 Fabriqué en France</span>
+          <span class="g-pill" style="background:var(--bg);">🛠️ Petits lots</span>
+          <span class="g-pill" style="background:var(--bg);">🚫 Zéro additif</span>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .g-manifesto__blob {
+    position: absolute;
+    right: 5%;
+    bottom: -10%;
+    pointer-events: none;
+  }
+  .g-manifesto__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+  .g-manifesto__title {
+    font: 900 clamp(40px, 4.5vw, 72px)/1 var(--display);
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .g-manifesto__title em { font-style: italic; color: var(--accent); }
+  .g-manifesto__body {
+    margin-top: 24px;
+    font: 500 19px/1.65 var(--body);
+    max-width: 560px;
+  }
+  .g-manifesto__pills {
+    display: flex;
+    gap: 10px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 768px) {
+    .g-manifesto__inner { grid-template-columns: 1fr; gap: 32px; }
+    .g-manifesto__blob { display: none; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Manifesto",
+  "settings": [
+    { "type": "text",     "id": "label", "label": "Puce",        "default": "Le manifesto" },
+    { "type": "richtext", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "body",  "label": "Corps du texte" }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Pill",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texte", "default": "🌿 100% bio" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Manifesto",
+      "blocks": [
+        { "type": "pill", "settings": { "text": "🌿 100% bio" } },
+        { "type": "pill", "settings": { "text": "🇫🇷 Fabriqué en France" } },
+        { "type": "pill", "settings": { "text": "🛠️ Petits lots" } },
+        { "type": "pill", "settings": { "text": "🚫 Zéro additif" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,150 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "hero_layout": "big",
+        "eyebrow": "🌿 Récolte de printemps · 2026",
+        "cta_label": "Découvrir la boutique",
+        "cta2_label": "Faire le quiz"
+      }
+    },
+    "marquee": {
+      "type": "marquee-values",
+      "settings": {}
+    },
+    "gammes": {
+      "type": "collections-grid",
+      "blocks": {
+        "miel": {
+          "type": "gamme_card",
+          "settings": {
+            "name": "Miels",
+            "tag": "Douceur",
+            "emoji": "🍯",
+            "blurb": "Miels crus monofloreaux de nos ruchers partenaires.",
+            "color": "#FF6A00",
+            "tint": "#FFD7B5"
+          }
+        },
+        "biscuit": {
+          "type": "gamme_card",
+          "settings": {
+            "name": "Biscuits",
+            "tag": "Gourmand",
+            "emoji": "🍪",
+            "blurb": "Sablés, shortbreads et biscottis aux plantes médicinales.",
+            "color": "#E94B7E",
+            "tint": "#FBDDE9"
+          }
+        },
+        "infusion": {
+          "type": "gamme_card",
+          "settings": {
+            "name": "Infusions",
+            "tag": "Bien-être",
+            "emoji": "🫖",
+            "blurb": "Mélanges herboristes pour chaque moment de la journée.",
+            "color": "#7DBF3E",
+            "tint": "#DCEFD0"
+          }
+        },
+        "huile": {
+          "type": "gamme_card",
+          "settings": {
+            "name": "Huiles",
+            "tag": "Soin",
+            "emoji": "🌿",
+            "blurb": "Macérats solaires et huiles végétales pour la peau et la cuisine.",
+            "color": "#8B6914",
+            "tint": "#E8D8A4"
+          }
+        },
+        "ghee": {
+          "type": "gamme_card",
+          "settings": {
+            "name": "Ghees",
+            "tag": "Cuisine",
+            "emoji": "🧈",
+            "blurb": "Beurres clarifiés aux plantes pour cuisiner sainement.",
+            "color": "#F4B226",
+            "tint": "#FDF0C6"
+          }
+        }
+      },
+      "blocks_order": ["miel", "biscuit", "infusion", "huile", "ghee"]
+    },
+    "manifesto": {
+      "type": "manifesto",
+      "blocks": {
+        "p1": { "type": "pill", "settings": { "text": "🌿 100% bio" } },
+        "p2": { "type": "pill", "settings": { "text": "🇫🇷 Fabriqué en France" } },
+        "p3": { "type": "pill", "settings": { "text": "🛠️ Petits lots" } },
+        "p4": { "type": "pill", "settings": { "text": "🚫 Zéro additif" } }
+      },
+      "blocks_order": ["p1", "p2", "p3", "p4"],
+      "settings": {
+        "label": "Le manifesto",
+        "body": "On en avait assez des trucs « bons pour la santé » qu'on prend en se forçant. Chez Goûtu, chaque produit est aussi délicieux qu'efficace. Sinon, on ne le vend pas. Voilà."
+      }
+    },
+    "bestsellers": {
+      "type": "featured-products",
+      "settings": {
+        "label": "★ Les chouchous",
+        "title": "Ceux qui cartonnent.",
+        "products_count": 4,
+        "image_style": "rounded"
+      }
+    },
+    "quiz": {
+      "type": "quiz-teaser",
+      "settings": {
+        "eyebrow": "🪄 Quiz personnalisé · 1 min",
+        "cta_label": "C'est parti"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "quote": "Le miel de thym m'a sauvé l'hiver. Sérieusement. Plus de pastilles depuis.",
+            "author": "Lou, 31 ans",
+            "stars": 5,
+            "color": "#FFB400"
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "quote": "Les sablés au romarin sont devenus mon goûter de bureau. Mes collègues sont jaloux.",
+            "author": "Karim, 38 ans",
+            "stars": 5,
+            "color": "#7DBF3E"
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "quote": "L'huile de calendula pour ma fille, ça fait un an. Plus jamais sans.",
+            "author": "Émilie, 34 ans",
+            "stars": 5,
+            "color": "#F4B226"
+          }
+        }
+      },
+      "blocks_order": ["r1", "r2", "r3"]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "title": "-10% sur ta première commande.",
+        "sub": "Plus des recettes, des nouveautés, et les ventes privées. Une fois par mois max, promis.",
+        "btn": "Go!"
+      }
+    }
+  },
+  "order": ["hero", "marquee", "gammes", "manifesto", "bestsellers", "quiz", "testimonials", "newsletter"]
+}

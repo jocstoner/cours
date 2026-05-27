@@ -1,0 +1,64 @@
+{
+  "general": {
+    "currency": { "conversion": "Conversion indicative en {{ currency }}" },
+    "share": "Partager",
+    "copied": "Copié !",
+    "close": "Fermer",
+    "search": "Rechercher"
+  },
+  "products": {
+    "product": {
+      "add_to_cart":      "Ajouter au panier",
+      "sold_out":         "Épuisé",
+      "unavailable":      "Indisponible",
+      "from":             "À partir de",
+      "quantity":         "Quantité",
+      "description":      "Description",
+      "sku":              "Référence"
+    }
+  },
+  "cart": {
+    "general": {
+      "title":            "Ton panier",
+      "empty":            "Ton panier est vide !",
+      "note":             "Note de commande",
+      "checkout":         "Commander",
+      "subtotal":         "Sous-total",
+      "total":            "Total",
+      "remove":           "Retirer",
+      "increase":         "Augmenter la quantité",
+      "decrease":         "Diminuer la quantité",
+      "cart_count":       { "one": "{{ count }} article", "other": "{{ count }} articles" }
+    }
+  },
+  "collection": {
+    "general": {
+      "view_all":         "Voir tout",
+      "sort_by":          "Trier par",
+      "sort_by_featured": "Mis en avant",
+      "sort_by_new":      "Nouveautés",
+      "sort_by_best":     "Best-sellers",
+      "sort_by_low":      "Prix croissant",
+      "sort_by_high":     "Prix décroissant",
+      "filter_by":        "Filtrer",
+      "product_count":    { "one": "{{ count }} produit", "other": "{{ count }} produits" }
+    }
+  },
+  "newsletter": {
+    "success":            "Merci ! Check ton inbox 🎉",
+    "error":              "Une erreur est survenue. Réessaie ?",
+    "label":              "Adresse e-mail",
+    "placeholder":        "ton@email.com",
+    "submit":             "S'inscrire"
+  },
+  "accessibility": {
+    "skip_to_content":    "Aller au contenu principal",
+    "close_modal":        "Fermer",
+    "open_menu":          "Ouvrir le menu",
+    "close_menu":         "Fermer le menu",
+    "open_cart":          "Ouvrir le panier",
+    "search":             "Rechercher",
+    "account":            "Mon compte",
+    "logo":               "Retour à l'accueil"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "current": {
+    "color_palette":      "vanille",
+    "color_bg":           "#FFFDF7",
+    "color_surface":      "#F5F0E8",
+    "color_ink":          "#1A1109",
+    "color_ink_mute":     "#7A6856",
+    "color_accent":       "#FF6A00",
+    "color_accent_tint":  "#FFD7B5",
+    "dark_mode":          false,
+    "font_display":       "fraunces",
+    "density":            "comfortable",
+    "layout_padding":     60,
+    "hero_padding":       100,
+    "section_padding":    80,
+    "grid_gap":           24,
+    "button_style":       "pill",
+    "tint_intensity":     80,
+    "cart_note":          ""
+  },
+  "presets": {
+    "Vanille": {
+      "color_palette":     "vanille",
+      "color_bg":          "#FFFDF7",
+      "color_surface":     "#F5F0E8",
+      "color_ink":         "#1A1109",
+      "color_ink_mute":    "#7A6856",
+      "color_accent":      "#FF6A00",
+      "color_accent_tint": "#FFD7B5",
+      "dark_mode":         false
+    },
+    "Citron": {
+      "color_palette":     "citron",
+      "color_bg":          "#FDFFF0",
+      "color_surface":     "#F5FAE0",
+      "color_ink":         "#1A1A09",
+      "color_ink_mute":    "#6A7040",
+      "color_accent":      "#C8E800",
+      "color_accent_tint": "#ECFAAA",
+      "dark_mode":         false
+    },
+    "Menthe": {
+      "color_palette":     "menthe",
+      "color_bg":          "#F0FDF7",
+      "color_surface":     "#DFF5EC",
+      "color_ink":         "#0A1A14",
+      "color_ink_mute":    "#507060",
+      "color_accent":      "#2ECC80",
+      "color_accent_tint": "#B2F0D6",
+      "dark_mode":         false
+    },
+    "Lavande": {
+      "color_palette":     "lavande",
+      "color_bg":          "#FAF0FF",
+      "color_surface":     "#EFE0FA",
+      "color_ink":         "#18090A",
+      "color_ink_mute":    "#7A5A80",
+      "color_accent":      "#A879E0",
+      "color_accent_tint": "#DEC9F5",
+      "dark_mode":         false
+    },
+    "Nuit": {
+      "color_palette":     "nuit",
+      "color_bg":          "#161008",
+      "color_surface":     "#231808",
+      "color_ink":         "#FFF8EC",
+      "color_ink_mute":    "#A89580",
+      "color_accent":      "#FF6A00",
+      "color_accent_tint": "#3A1F00",
+      "dark_mode":         true
+    }
+  }
+}

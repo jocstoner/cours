@@ -1,0 +1,30 @@
+<section class="g-marquee-values" style="background:var(--ink);color:var(--bg);padding:18px 0;overflow:hidden;border-top:var(--border);border-bottom:var(--border);">
+  <div class="g-marquee-values__track">
+    {%- for rep in (1..2) -%}
+      <span>★ 100% BIO OU SAUVAGE</span>
+      <span style="color:var(--accent);">✿ FAIT À AVIGNON</span>
+      <span>★ PETITS LOTS</span>
+      <span style="color:var(--accent);">✿ ZÉRO ADDITIF</span>
+      <span>★ LIVRÉ EN 48H</span>
+      <span style="color:var(--accent);">✿ MOT MANUSCRIT</span>
+    {%- endfor -%}
+  </div>
+</section>
+
+<style>
+  .g-marquee-values__track {
+    display: flex;
+    gap: 80px;
+    white-space: nowrap;
+    animation: g-scroll 28s linear infinite;
+    font: 800 22px/1 var(--display);
+    letter-spacing: -0.01em;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Bandeau valeurs",
+  "presets": [{ "name": "Bandeau valeurs" }]
+}
+{% endschema %}

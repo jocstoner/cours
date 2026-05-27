@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_accent }}">
+
+  <title>
+    {%- if page_title == blank -%}{{ shop.name }}{%- else -%}{{ page_title }} — {{ shop.name }}{%- endif -%}
+  </title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:title" content="{{ page_title | default: shop.name }}">
+  {%- if page_image -%}
+    <meta property="og:image" content="{{ page_image | image_url: width: 1200 }}">
+  {%- endif -%}
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  <!-- CSS vars depuis les réglages du thème -->
+  <style>
+    :root {
+      --bg:          {{ settings.color_bg }};
+      --surface:     {{ settings.color_surface }};
+      --ink:         {{ settings.color_ink }};
+      --ink-mute:    {{ settings.color_ink_mute }};
+      --accent:      {{ settings.color_accent }};
+      --accent-tint: {{ settings.color_accent_tint }};
+      --page-x:      {{ settings.layout_padding }}px;
+      --hero-y:      {{ settings.hero_padding }}px;
+      --section-y:   {{ settings.section_padding }}px;
+      --gap-x:       {{ settings.grid_gap }}px;
+      --btn-radius:  {%- if settings.button_style == 'pill' -%}999px{%- elsif settings.button_style == 'soft' -%}16px{%- else -%}4px{%- endif -%};
+    }
+
+    {%- if settings.dark_mode -%}
+      :root {
+        --bg:      #1B1410;
+        --surface: #2A201A;
+        --ink:     #FFF8EC;
+        --ink-mute:#A89580;
+      }
+    {%- endif -%}
+
+    {%- if settings.font_display == 'fraunces' -%}
+      :root { --display: 'Fraunces', serif; }
+    {%- elsif settings.font_display == 'space-grotesk' -%}
+      :root { --display: 'Space Grotesk', system-ui, sans-serif; }
+    {%- elsif settings.font_display == 'archivo' -%}
+      :root { --display: 'Archivo Black', system-ui, sans-serif; }
+    {%- endif -%}
+  </style>
+
+  {{ content_for_header }}
+</head>
+
+<body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
+
+  <a href="#main-content" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+    Aller au contenu
+  </a>
+
+  {%- section 'header' -%}
+
+  <main id="main-content" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {%- section 'footer' -%}
+
+  <!-- Cart Overlay -->
+  <div class="g-cart-overlay" aria-hidden="true"></div>
+
+  <!-- Cart Drawer -->
+  <div class="g-cart-drawer" role="dialog" aria-modal="true" aria-label="Ton panier">
+    <div class="g-cart-drawer__header">
+      <h2 class="g-cart-drawer__title">
+        Ton panier 🛒
+        <span class="g-label" style="font-size:10px;margin-left:10px;opacity:0.6;">
+          {{ cart.item_count }} article{{ cart.item_count | plural: '', 's' }}
+        </span>
+      </h2>
+      <button class="g-btn-icon" data-close-cart aria-label="Fermer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="g-cart-drawer__items">
+      {%- if cart.item_count == 0 -%}
+        <div style="padding:60px 0;text-align:center;">
+          <p style="font:700 18px/1.5 var(--body);color:var(--ink-mute);">Ton panier est vide !</p>
+          <a href="{{ routes.all_products_collection_url }}" class="g-btn-primary" style="margin-top:20px;display:inline-flex;">
+            Découvrir la boutique →
+          </a>
+        </div>
+      {%- else -%}
+        {%- for item in cart.items -%}
+          <div class="g-cart-item">
+            <div class="g-cart-item__thumb">
+              {%- if item.image -%}
+                <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.image.alt | escape }}" width="80" height="80" loading="lazy">
+              {%- else -%}
+                <div style="width:100%;height:100%;background:var(--accent-tint);border-radius:8px;"></div>
+              {%- endif -%}
+            </div>
+            <div>
+              <a href="{{ item.url }}" class="g-cart-item__name">{{ item.product.title }}</a>
+              {%- unless item.product.has_only_default_variant -%}
+                <div style="font-size:13px;color:var(--ink-mute);margin-top:3px;">{{ item.variant.title }}</div>
+              {%- endunless -%}
+              <div class="g-cart-item__price">{{ item.final_price | money_without_trailing_zeros }}</div>
+              <div style="display:flex;align-items:center;gap:12px;margin-top:10px;">
+                <div style="display:inline-flex;align-items:center;border:2px solid var(--ink);border-radius:99px;"
+                     data-item-key="{{ item.key }}" data-qty="{{ item.quantity }}">
+                  <button class="g-btn-icon" data-change-qty="{{ item.key }}" data-delta="-1" style="width:32px;height:32px;border-radius:99px;" aria-label="Diminuer">−</button>
+                  <span style="padding:0 10px;font:700 14px/1 var(--body);">{{ item.quantity }}</span>
+                  <button class="g-btn-icon" data-change-qty="{{ item.key }}" data-delta="1" style="width:32px;height:32px;border-radius:99px;" aria-label="Augmenter">+</button>
+                </div>
+                <button data-remove-item="{{ item.key }}"
+                        style="font:700 13px/1 var(--body);color:var(--ink-mute);background:none;border:0;cursor:pointer;text-decoration:underline;">
+                  Retirer
+                </button>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <div class="g-cart-drawer__footer">
+      <div class="g-cart-total">
+        <span class="g-label" style="opacity:0.6;">Total</span>
+        <span class="g-cart-total__amount">{{ cart.total_price | money_without_trailing_zeros }}</span>
+      </div>
+      {%- if settings.cart_note != blank -%}
+        <p style="font:600 13px/1.5 var(--body);color:var(--ink-mute);margin-bottom:16px;">{{ settings.cart_note }}</p>
+      {%- endif -%}
+      <a href="{{ routes.cart_url }}" class="g-btn-primary" style="width:100%;justify-content:center;">
+        Commander · {{ cart.total_price | money_without_trailing_zeros }} →
+      </a>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="g-toast" id="g-toast" aria-live="polite">
+    <span style="font:700 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);">★ Ajouté</span>
+    <span id="g-toast-msg" style="font:700 16px/1 var(--body);"></span>
+  </div>
+
+  {{ 'theme.js' | asset_url | script_tag }}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.Goutu && window.Goutu.tintEngine) {
+        window.Goutu.tintEngine.intensity = {{ settings.tint_intensity | default: 80 }} / 100;
+      }
+    });
+  </script>
+
+</body>
+</html>
