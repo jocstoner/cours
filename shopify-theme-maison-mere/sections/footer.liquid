@@ -1,0 +1,156 @@
+<!-- SECTION: Footer — Maison Mère -->
+
+<footer class="m-footer" role="contentinfo">
+  <div class="m-footer__inner">
+    <div class="m-footer__grid">
+
+      <!-- Colonne marque -->
+      <div>
+        <div class="m-footer__logo">
+          {%- if section.settings.logo != blank -%}
+            <img src="{{ section.settings.logo | image_url: height: 56 }}"
+                 alt="{{ shop.name }}" height="56" style="height:56px;width:auto;">
+          {%- else -%}
+            Maison <span style="color:var(--accent);">Mère</span>
+          {%- endif -%}
+        </div>
+        <p class="m-footer__tagline">
+          {{ section.settings.tagline | default: 'Plantes médicinales cuisinées à la main à Avignon depuis 2018.' }}
+        </p>
+        {%- if section.settings.show_socials -%}
+          <div style="display:flex;gap:12px;margin-top:24px;">
+            {%- if section.settings.instagram_url != blank -%}
+              <a href="{{ section.settings.instagram_url }}" aria-label="Instagram"
+                 style="opacity:0.7;transition:opacity .2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="2" width="20" height="20" rx="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.facebook_url != blank -%}
+              <a href="{{ section.settings.facebook_url }}" aria-label="Facebook"
+                 style="opacity:0.7;transition:opacity .2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Menus -->
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'menu_column' -%}
+          <div {{ block.shopify_attributes }}>
+            <div class="m-footer__col-title">{{ block.settings.title }}</div>
+            {%- if block.settings.menu != blank -%}
+              <ul class="m-footer__links">
+                {%- for link in block.settings.menu.links -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+        {%- elsif block.type == 'text_column' -%}
+          <div {{ block.shopify_attributes }}>
+            <div class="m-footer__col-title">{{ block.settings.title }}</div>
+            <div style="font:italic 400 15px/1.6 var(--display);opacity:0.8;">
+              {{ block.settings.content }}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- Pied de page -->
+    <div class="m-footer__bottom">
+      <span>© {{ 'now' | date: '%Y' }} {{ shop.name }} · Tous droits réservés</span>
+      <span>{{ section.settings.legal_note | default: 'Fait avec ♥ à Avignon' }}</span>
+      {%- if section.settings.payment_icons -%}
+        <div style="display:flex;gap:8px;opacity:0.5;">
+          {{ content_for_header | payment_type_svg_tag: class: 'icon icon--full-color' }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Pied de page",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (inversé)"
+    },
+    {
+      "type": "textarea",
+      "id": "tagline",
+      "label": "Slogan",
+      "default": "Plantes médicinales cuisinées à la main à Avignon depuis 2018."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_socials",
+      "label": "Afficher les réseaux sociaux",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Lien Instagram"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Lien Facebook"
+    },
+    {
+      "type": "text",
+      "id": "legal_note",
+      "label": "Note légale / crédits",
+      "default": "Fait avec ♥ à Avignon"
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_icons",
+      "label": "Afficher les icônes de paiement",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_column",
+      "name": "Menu",
+      "limit": 3,
+      "settings": [
+        { "type": "text",      "id": "title", "label": "Titre de colonne", "default": "Boutique" },
+        { "type": "link_list", "id": "menu",  "label": "Menu" }
+      ]
+    },
+    {
+      "type": "text_column",
+      "name": "Texte",
+      "limit": 2,
+      "settings": [
+        { "type": "text",     "id": "title",   "label": "Titre",   "default": "Contact" },
+        { "type": "richtext", "id": "content", "label": "Contenu", "default": "<p>contact@maisonmere.fr<br>Avignon, 84000</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pied de page",
+      "blocks": [
+        { "type": "menu_column", "settings": { "title": "Boutique" } },
+        { "type": "menu_column", "settings": { "title": "La maison" } },
+        { "type": "text_column", "settings": { "title": "Contact" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

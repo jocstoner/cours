@@ -1,0 +1,129 @@
+<section class="g-testimonials" style="padding:var(--section-y) var(--page-x);">
+  <div style="margin-bottom:calc(var(--section-y) * 0.4);">
+    <span class="g-pill" style="background:var(--accent);">
+      {{ section.settings.label | default: '💬 Ils en parlent' }}
+    </span>
+    <h2 class="g-testimonials__title">{{ section.settings.title | default: 'On lit tous vos messages.' }}</h2>
+  </div>
+  <div class="g-testimonials__grid">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'review' -%}
+        {%- assign rot = forloop.index0 | modulo: 2 -%}
+        <article class="g-testimonials__card"
+                 style="transform:rotate({%- if rot == 1 -%}0.8{%- else -%}-0.6{%- endif -%}deg);"
+                 {{ block.shopify_attributes }}>
+          <div class="g-testimonials__stars">
+            {%- for i in (1..block.settings.stars) -%}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="{{ block.settings.color | default: '#FFB400' }}" aria-hidden="true">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            {%- endfor -%}
+          </div>
+          <p class="g-testimonials__quote">« {{ block.settings.quote }} »</p>
+          <div class="g-testimonials__author">— {{ block.settings.author }}</div>
+        </article>
+      {%- endif -%}
+    {%- else -%}
+      <article class="g-testimonials__card" style="transform:rotate(-0.6deg);">
+        <div class="g-testimonials__stars">
+          {%- for i in (1..5) -%}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFB400" aria-hidden="true">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          {%- endfor -%}
+        </div>
+        <p class="g-testimonials__quote">« Le miel de thym m'a sauvé l'hiver. Plus de pastilles depuis. »</p>
+        <div class="g-testimonials__author">— Lou, 31 ans</div>
+      </article>
+      <article class="g-testimonials__card" style="transform:rotate(0.8deg);">
+        <div class="g-testimonials__stars">
+          {%- for i in (1..5) -%}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#7DBF3E" aria-hidden="true">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          {%- endfor -%}
+        </div>
+        <p class="g-testimonials__quote">« Les sablés au romarin sont devenus mon goûter de bureau. Mes collègues sont jaloux. »</p>
+        <div class="g-testimonials__author">— Karim, 38 ans</div>
+      </article>
+      <article class="g-testimonials__card" style="transform:rotate(-0.6deg);">
+        <div class="g-testimonials__stars">
+          {%- for i in (1..5) -%}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F4B226" aria-hidden="true">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          {%- endfor -%}
+        </div>
+        <p class="g-testimonials__quote">« L'huile de calendula pour ma fille, ça fait un an. Plus jamais sans. »</p>
+        <div class="g-testimonials__author">— Émilie, 34 ans</div>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+<style>
+  .g-testimonials__title {
+    font: 900 clamp(40px, 5vw, 72px)/1 var(--display);
+    letter-spacing: -0.025em;
+    margin: 16px 0 0;
+  }
+  .g-testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-x);
+  }
+  .g-testimonials__card {
+    background: var(--bg);
+    border: var(--border);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .g-testimonials__stars { display: flex; gap: 2px; margin-bottom: 14px; }
+  .g-testimonials__quote {
+    font: 500 19px/1.45 var(--body);
+    margin: 0;
+  }
+  .g-testimonials__author {
+    margin-top: 18px;
+    font: 700 13px/1 var(--mono);
+    letter-spacing: .06em;
+    color: var(--ink-mute);
+  }
+  @media (max-width: 768px) {
+    .g-testimonials__grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Avis clients",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Puce",  "default": "💬 Ils en parlent" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "On lit tous vos messages." }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Avis",
+      "settings": [
+        { "type": "textarea", "id": "quote",  "label": "Citation" },
+        { "type": "text",     "id": "author", "label": "Auteur" },
+        { "type": "range",    "id": "stars",  "label": "Étoiles", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "color",    "id": "color",  "label": "Couleur étoiles" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Avis clients",
+      "blocks": [
+        { "type": "review", "settings": { "quote": "Le miel de thym m'a sauvé l'hiver. Plus de pastilles depuis.", "author": "Lou, 31 ans", "stars": 5, "color": "#FFB400" } },
+        { "type": "review", "settings": { "quote": "Les sablés au romarin sont devenus mon goûter de bureau.", "author": "Karim, 38 ans", "stars": 5, "color": "#7DBF3E" } },
+        { "type": "review", "settings": { "quote": "L'huile de calendula pour ma fille, ça fait un an. Plus jamais sans.", "author": "Émilie, 34 ans", "stars": 5, "color": "#F4B226" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

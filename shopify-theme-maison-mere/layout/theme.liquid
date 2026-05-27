@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_accent }}">
+
+  <title>
+    {%- if page_title == blank -%}
+      {{ shop.name }}
+    {%- else -%}
+      {{ page_title }} — {{ shop.name }}
+    {%- endif -%}
+  </title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:title" content="{{ page_title | default: shop.name }}">
+  {%- if page_description -%}
+    <meta property="og:description" content="{{ page_description | escape }}">
+  {%- endif -%}
+  {%- if page_image -%}
+    <meta property="og:image" content="{{ page_image | image_url: width: 1200 }}">
+  {%- endif -%}
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  <!-- Theme settings via CSS vars -->
+  <style>
+    :root {
+      --paper:       {{ settings.color_paper }};
+      --cream:       {{ settings.color_cream }};
+      --ink:         {{ settings.color_ink }};
+      --ink-mute:    {{ settings.color_ink_mute }};
+      --rule:        {{ settings.color_rule }};
+      --accent:      {{ settings.color_accent }};
+      --accent-tint: {{ settings.color_accent_tint }};
+      --page-x:      {{ settings.layout_padding }}px;
+      --hero-y:      {{ settings.hero_padding }}px;
+      --section-y:   {{ settings.section_padding }}px;
+      --gap-x:       {{ settings.grid_gap }}px;
+      --btn-radius:  {%- if settings.button_style == 'pill' -%}999px{%- elsif settings.button_style == 'soft' -%}10px{%- else -%}0px{%- endif -%};
+    }
+
+    {%- if settings.dark_mode -%}
+      :root {
+        --paper:    #1a140d;
+        --cream:    #241c12;
+        --ink:      #f5e9d4;
+        --ink-mute: #a8916a;
+        --rule:     #3a2e1f;
+      }
+    {%- endif -%}
+  </style>
+
+  {%- if settings.show_paper_texture -%}
+  <style>
+    body {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+  </style>
+  {%- endif -%}
+
+  {{ content_for_header }}
+</head>
+
+<body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
+
+  <!-- Skip to content -->
+  <a href="#main-content" class="visually-hidden">Aller au contenu principal</a>
+
+  {%- section 'header' -%}
+
+  <main id="main-content" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {%- section 'footer' -%}
+
+  <!-- Cart Drawer -->
+  <div class="m-cart-overlay" aria-hidden="true"></div>
+  <div class="m-cart-drawer" role="dialog" aria-modal="true" aria-label="Votre panier">
+    <div class="m-cart-drawer__header">
+      <h2 class="m-cart-drawer__title">
+        Le panier <span class="m-label" style="font-size:10px; margin-left:10px;">★ {{ cart.item_count }} article{{ cart.item_count | plural: '', 's' }}</span>
+      </h2>
+      <button class="m-btn-icon" data-close-cart aria-label="Fermer le panier">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="m-cart-drawer__items">
+      {%- if cart.item_count == 0 -%}
+        <div style="padding: 60px 0; text-align: center;">
+          <p style="font: italic 400 18px/1.5 var(--display); color: var(--ink-mute);">
+            Votre panier est vide.
+          </p>
+          <a href="{{ routes.all_products_collection_url }}" class="m-btn-ghost" style="margin-top: 20px; display: inline-flex;">
+            Découvrir le comptoir →
+          </a>
+        </div>
+      {%- else -%}
+        {%- for item in cart.items -%}
+          <div class="m-cart-item">
+            <div class="m-cart-item__thumb">
+              {%- if item.image -%}
+                <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.image.alt | escape }}" width="80" height="80" loading="lazy">
+              {%- else -%}
+                <div style="width:100%;height:100%;background:var(--accent-tint);"></div>
+              {%- endif -%}
+            </div>
+            <div>
+              <a href="{{ item.url }}" class="m-cart-item__name">{{ item.product.title }}</a>
+              {%- unless item.product.has_only_default_variant -%}
+                <div style="font-size:13px;color:var(--ink-mute);margin-top:3px;">{{ item.variant.title }}</div>
+              {%- endunless -%}
+              <div class="m-cart-item__price">{{ item.final_price | money }}</div>
+              <div style="display:flex;align-items:center;gap:12px;margin-top:10px;">
+                <div class="m-cart-item__qty" data-item-key="{{ item.key }}" data-qty="{{ item.quantity }}">
+                  <button class="m-btn-icon" data-change-qty="{{ item.key }}" data-delta="-1" style="width:30px;height:30px;" aria-label="Diminuer">−</button>
+                  <span style="padding:0 8px;">{{ item.quantity }}</span>
+                  <button class="m-btn-icon" data-change-qty="{{ item.key }}" data-delta="1" style="width:30px;height:30px;" aria-label="Augmenter">+</button>
+                </div>
+                <button class="m-btn-link" data-remove-item="{{ item.key }}" style="font-size:12px;">Retirer</button>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <div class="m-cart-drawer__footer">
+      <div class="m-cart-total">
+        <span class="m-cart-total__label">★ Total</span>
+        <span class="m-cart-total__amount">{{ cart.total_price | money }}</span>
+      </div>
+      {%- if settings.cart_note -%}
+        <p style="font:italic 400 13px/1.5 var(--display); color:var(--ink-mute); margin-bottom:16px;">{{ settings.cart_note }}</p>
+      {%- endif -%}
+      <a href="{{ routes.cart_url }}" class="m-btn-primary" style="width:100%; justify-content:center; height:52px;">
+        Passer la commande →
+      </a>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="m-toast" id="m-toast" aria-live="polite" role="status">
+    <span class="m-toast__label">★ Au panier</span>
+    <span class="m-toast__msg" id="m-toast-msg"></span>
+  </div>
+
+  <!-- JS -->
+  {{ 'theme.js' | asset_url | script_tag }}
+
+  <!-- Tint intensity setting -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.MaisonMere && window.MaisonMere.tintEngine) {
+        window.MaisonMere.tintEngine.intensity = {{ settings.tint_intensity | default: 70 }} / 100;
+      }
+    });
+  </script>
+
+</body>
+</html>

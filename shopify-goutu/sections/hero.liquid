@@ -1,0 +1,295 @@
+{%- assign hero_layout = section.settings.hero_layout | default: 'big' -%}
+
+{%- if hero_layout == 'big' -%}
+<section class="g-hero g-hero--big">
+  <div class="g-hero__blob-main" aria-hidden="true">
+    {%- render 'blob', index: 2, color: 'var(--accent)', size: 600, opacity: 0.85 -%}
+  </div>
+  <div class="g-hero__blob-sub" aria-hidden="true">
+    {%- render 'blob', index: 0, color: 'var(--accent-tint)', size: 300, opacity: 0.9 -%}
+  </div>
+  <div class="g-hero__star" aria-hidden="true">
+    {%- render 'star-sticker', label: 'NEW', color: 'var(--accent)', size: 120, rotate: -15 -%}
+  </div>
+  <div class="g-hero__content">
+    <span class="g-pill" style="background:var(--accent);">🌿 {{ section.settings.eyebrow | default: 'Récolte de printemps · 2026' }}</span>
+    <h1 class="g-hero__title">
+      {{ section.settings.title | default: 'Plantes qui <em>soignent</em>.<br>Recettes qui <em>régalent</em>.' }}
+    </h1>
+    <p class="g-hero__sub">{{ section.settings.sub | default: 'Miels crus, biscuits aux plantes, infusions herboristes, macérats solaires, ghees clarifiés. Tout est cuisiné à la main à Avignon, en petits lots.' }}</p>
+    <div class="g-hero__ctas">
+      <a href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}"
+         class="g-btn-primary">
+        {{ section.settings.cta_label | default: 'Découvrir la boutique' }} →
+      </a>
+      {%- if section.settings.cta2_label != blank -%}
+        <a href="{{ section.settings.cta2_url | default: '#quiz' }}" class="g-btn-ghost">
+          {{ section.settings.cta2_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- elsif hero_layout == 'collage' -%}
+<section class="g-hero g-hero--collage">
+  <div class="g-hero-collage__left">
+    <span class="g-pill" style="background:var(--accent);">★ Bienvenue chez Goûtu</span>
+    <h1 class="g-hero__title">
+      {{ section.settings.title | default: 'Le rayon <span style="color:var(--accent)">plantes</span><br>conçu pour les<br><em>gourmand·es.</em>' }}
+    </h1>
+    <div class="g-hero__ctas">
+      <a href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}"
+         class="g-btn-primary">
+        {{ section.settings.cta_label | default: 'Boutique' }} →
+      </a>
+      {%- if section.settings.cta2_label != blank -%}
+        <a href="{{ section.settings.cta2_url | default: '#quiz' }}" class="g-btn-ghost">
+          {{ section.settings.cta2_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+  <div class="g-hero-collage__right">
+    {%- assign collage_positions = 'top:0%;left:15%;transform:rotate(-8deg)' | split: '|' -%}
+    {%- assign collage_products = collections[section.settings.collage_collection].products | default: collections.all.products -%}
+    {%- assign c_idx = 0 -%}
+    {%- for product in collage_products limit: 4 -%}
+      {%- assign blob_i = forloop.index0 | modulo: 4 -%}
+      {%- assign card_tint = product.metafields.custom.tint_bg.value | default: 'var(--accent-tint)' -%}
+      {%- assign card_color = product.metafields.custom.tint_color.value | default: 'var(--accent)' -%}
+      <div class="g-hero-collage__pot g-hero-collage__pot--{{ forloop.index }}"
+           data-tint-color="{{ card_color }}"
+           data-tint-bg="{{ card_tint }}"
+           data-tint-hover="true">
+        {%- render 'blob', index: blob_i, color: card_tint, size: 220 -%}
+        {%- if product.featured_image -%}
+          <img src="{{ product.featured_image | image_url: width: 300 }}"
+               alt="{{ product.title | escape }}" loading="lazy"
+               style="position:relative;z-index:1;width:70%;height:70%;object-fit:contain;">
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{%- elsif hero_layout == 'punchy' -%}
+<section class="g-hero g-hero--punchy"
+         style="background:var(--accent);border-bottom:var(--border);transition:background .6s;">
+  <div class="g-hero__blob-main" style="left:-10%;top:-20%;" aria-hidden="true">
+    {%- render 'blob', index: 0, color: 'var(--ink)', size: 500, opacity: 0.18 -%}
+  </div>
+  <div class="g-hero__blob-sub" style="right:-5%;bottom:-20%;" aria-hidden="true">
+    {%- render 'blob', index: 2, color: 'var(--bg)', size: 400, opacity: 0.7 -%}
+  </div>
+  <div class="g-hero__star g-hero__star--punchy" aria-hidden="true">
+    {%- render 'star-sticker', label: 'HOT', color: 'var(--ink)', size: 120, rotate: 15 -%}
+  </div>
+  <div class="g-hero__content">
+    <span class="g-pill" style="background:var(--ink);color:var(--bg);">★ {{ section.settings.eyebrow | default: 'Nouvelle collection' }}</span>
+    <h1 class="g-hero__title g-hero__title--punchy">
+      {{ section.settings.title | default: "C'est <em>bon</em>.<br>C'est <em>cool</em>.<br>Ça <em>soigne.</em>" }}
+    </h1>
+    <div class="g-hero__ctas">
+      <a href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}"
+         class="g-btn-primary">
+        {{ section.settings.cta_label | default: 'Découvrir' }} →
+      </a>
+    </div>
+  </div>
+</section>
+
+{%- elsif hero_layout == 'marquee' -%}
+<section class="g-hero g-hero--marquee">
+  <div class="g-hero-marquee__center">
+    <span class="g-pill" style="background:var(--accent);">🌿 {{ section.settings.eyebrow | default: 'Récolte de printemps 2026' }}</span>
+    <h1 class="g-hero__title g-hero__title--marquee">
+      {{ section.settings.title | default: 'Plantes <em>vraiment</em><br>délicieuses.' }}
+    </h1>
+    <p class="g-hero__sub" style="text-align:center;margin:24px auto 0;max-width:540px;">
+      {{ section.settings.sub | default: 'Miels, biscuits, infusions, huiles, ghees. Faits main à Avignon depuis 2018.' }}
+    </p>
+    <div class="g-hero__ctas" style="justify-content:center;">
+      <a href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}"
+         class="g-btn-primary">
+        {{ section.settings.cta_label | default: 'Boutique' }} →
+      </a>
+      {%- if section.settings.cta2_label != blank -%}
+        <a href="{{ section.settings.cta2_url | default: '#quiz' }}" class="g-btn-ghost">
+          {{ section.settings.cta2_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="g-hero-marquee__track-wrap">
+    <div class="g-hero-marquee__track">
+      {%- assign marquee_products = collections[section.settings.collage_collection].products | default: collections.all.products -%}
+      {%- for rep in (1..2) -%}
+        {%- for product in marquee_products limit: 8 -%}
+          {%- assign rot = forloop.index0 | modulo: 2 | times: 7 | minus: 3 -%}
+          {%- assign card_tint = product.metafields.custom.tint_bg.value | default: 'var(--accent-tint)' -%}
+          {%- assign card_color = product.metafields.custom.tint_color.value | default: 'var(--accent)' -%}
+          <div style="flex-shrink:0;transform:rotate({{ rot }}deg);">
+            <div style="width:160px;height:200px;background:{{ card_tint }};border:var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+              {%- if product.featured_image -%}
+                <img src="{{ product.featured_image | image_url: width: 240 }}"
+                     alt="{{ product.title | escape }}" loading="lazy"
+                     style="width:80%;height:80%;object-fit:contain;">
+              {%- else -%}
+                <span style="font:900 40px/1 var(--display);color:{{ card_color }};">
+                  {{ product.metafields.custom.emoji.value | default: '🌿' }}
+                </span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<style>
+  .g-hero {
+    padding: var(--hero-y) var(--page-x);
+    position: relative;
+    overflow: hidden;
+    min-height: 80vh;
+  }
+  .g-hero--big { min-height: 88vh; }
+  .g-hero__blob-main,
+  .g-hero__blob-sub {
+    position: absolute;
+    pointer-events: none;
+  }
+  .g-hero--big .g-hero__blob-main { right: -100px; top: 5%; }
+  .g-hero--big .g-hero__blob-sub  { right: 15%; top: 50%; }
+  .g-hero--collage .g-hero__blob-main { right: -100px; top: 10%; }
+  .g-hero--punchy .g-hero__blob-main { left: -10%; top: -20%; }
+  .g-hero--punchy .g-hero__blob-sub  { right: -5%; bottom: -20%; }
+  .g-hero__star {
+    position: absolute;
+    right: 36%;
+    top: 22%;
+    pointer-events: none;
+  }
+  .g-hero__star--punchy { right: 30%; top: 25%; }
+  .g-hero__content { max-width: 60%; position: relative; }
+  .g-hero__title {
+    font: 900 clamp(64px, 9.5vw, 160px) / 0.88 var(--display);
+    letter-spacing: -0.04em;
+    margin: 20px 0 0;
+  }
+  .g-hero__title--punchy {
+    font-size: clamp(72px, 11vw, 180px);
+    letter-spacing: -0.05em;
+    margin: 24px 0 0;
+    color: var(--ink);
+  }
+  .g-hero__title--marquee {
+    font-size: clamp(80px, 13vw, 220px);
+    text-align: center;
+    margin: 24px auto 0;
+    max-width: 14ch;
+  }
+  .g-hero__title em { font-style: normal; color: var(--accent); }
+  .g-hero--punchy .g-hero__title em { font-style: italic; color: var(--ink); }
+  .g-hero__sub {
+    margin-top: 28px;
+    font: 500 20px/1.55 var(--body);
+    max-width: 540px;
+  }
+  .g-hero__ctas {
+    display: flex;
+    gap: 14px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+
+  /* Collage */
+  .g-hero--collage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    min-height: 80vh;
+    padding-top: var(--hero-y);
+    padding-bottom: var(--section-y);
+  }
+  .g-hero-collage__left { max-width: 100%; }
+  .g-hero-collage__right {
+    position: relative;
+    height: min(72vh, 700px);
+  }
+  .g-hero-collage__pot {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform .4s;
+  }
+  .g-hero-collage__pot--1 { top: 0%;    left: 15%;   transform: rotate(-8deg);  width: 200px; height: 200px; }
+  .g-hero-collage__pot--2 { top: 5%;    right: 5%;   transform: rotate(12deg);  width: 240px; height: 240px; }
+  .g-hero-collage__pot--3 { bottom: 8%; left: 0%;    transform: rotate(4deg);   width: 220px; height: 220px; }
+  .g-hero-collage__pot--4 { bottom: 0%; right: 15%;  transform: rotate(-5deg);  width: 230px; height: 230px; }
+  .g-hero-collage__pot:hover { transform: rotate(0deg) scale(1.05) !important; }
+
+  /* Marquee */
+  .g-hero--marquee { min-height: 0; padding-bottom: 0; }
+  .g-hero-marquee__center { padding: 0 var(--page-x); text-align: center; }
+  .g-hero-marquee__track-wrap {
+    margin-top: 60px;
+    overflow: hidden;
+    border-top: var(--border);
+    background: var(--accent-tint);
+    padding: 40px 0;
+    transition: background .6s;
+  }
+  .g-hero-marquee__track {
+    display: flex;
+    gap: 80px;
+    align-items: center;
+    animation: g-scroll 32s linear infinite;
+  }
+  @media (max-width: 768px) {
+    .g-hero { min-height: 0; }
+    .g-hero__content { max-width: 100%; }
+    .g-hero--collage { grid-template-columns: 1fr; gap: 40px; }
+    .g-hero-collage__right { height: 300px; }
+    .g-hero__title { font-size: clamp(48px, 13vw, 90px); }
+    .g-hero__star { display: none; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "select",
+      "id": "hero_layout",
+      "label": "Layout du hero",
+      "default": "big",
+      "options": [
+        { "value": "big",     "label": "Big Blob" },
+        { "value": "collage", "label": "Collage de pots" },
+        { "value": "punchy",  "label": "Fond accent punchy" },
+        { "value": "marquee", "label": "Marquee défilant" }
+      ]
+    },
+    { "type": "text",    "id": "eyebrow",    "label": "Puce au-dessus du titre", "default": "Récolte de printemps · 2026" },
+    { "type": "richtext","id": "title",      "label": "Titre" },
+    { "type": "textarea","id": "sub",        "label": "Sous-titre" },
+    { "type": "text",    "id": "cta_label",  "label": "Bouton principal", "default": "Découvrir la boutique" },
+    { "type": "url",     "id": "cta_url",    "label": "Lien bouton principal" },
+    { "type": "text",    "id": "cta2_label", "label": "Bouton secondaire (optionnel)", "default": "Faire le quiz" },
+    { "type": "url",     "id": "cta2_url",   "label": "Lien bouton secondaire" },
+    { "type": "collection", "id": "collage_collection", "label": "Collection pour collage / marquee" }
+  ],
+  "presets": [
+    { "name": "Hero", "settings": { "hero_layout": "big" } }
+  ]
+}
+{% endschema %}

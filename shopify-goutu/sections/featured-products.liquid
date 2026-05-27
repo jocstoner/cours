@@ -1,0 +1,94 @@
+<section class="g-featured-products" style="padding:var(--section-y) var(--page-x);">
+  <div class="g-featured-products__head">
+    <div>
+      {%- if section.settings.label != blank -%}
+        <span class="g-pill" style="background:var(--accent);">{{ section.settings.label }}</span>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="g-featured-products__title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.cta_label != blank -%}
+      <a href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}"
+         class="g-btn-ghost">
+        {{ section.settings.cta_label }} →
+      </a>
+    {%- endif -%}
+  </div>
+
+  <div class="g-featured-products__grid">
+    {%- if section.settings.collection != blank -%}
+      {%- assign fp_collection = collections[section.settings.collection] -%}
+      {%- for product in fp_collection.products limit: section.settings.products_count -%}
+        {%- render 'product-card', product: product, image_style: section.settings.image_style -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'product' and block.settings.product != blank -%}
+          {%- assign product = all_products[block.settings.product] -%}
+          {%- render 'product-card', product: product, image_style: section.settings.image_style -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .g-featured-products__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: calc(var(--section-y) * 0.5);
+  }
+  .g-featured-products__title {
+    font: 900 clamp(48px, 6vw, 88px)/0.95 var(--display);
+    letter-spacing: -0.035em;
+    margin: 16px 0 0;
+  }
+  .g-featured-products__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--gap-x);
+  }
+  @media (max-width: 1024px) {
+    .g-featured-products__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .g-featured-products__grid { grid-template-columns: 1fr; }
+    .g-featured-products__head { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Produits mis en avant",
+  "settings": [
+    { "type": "text",       "id": "label",         "label": "Puce",         "default": "★ Les chouchous" },
+    { "type": "text",       "id": "title",         "label": "Titre",        "default": "Ceux qui cartonnent." },
+    { "type": "collection", "id": "collection",    "label": "Collection" },
+    { "type": "range",      "id": "products_count","label": "Nb produits",  "default": 4, "min": 2, "max": 8, "step": 1 },
+    { "type": "select",     "id": "image_style",   "label": "Style image",  "default": "rounded",
+      "options": [
+        { "value": "rounded", "label": "Arrondi" },
+        { "value": "square",  "label": "Carré" },
+        { "value": "blob",    "label": "Blob" }
+      ]
+    },
+    { "type": "text",       "id": "cta_label",     "label": "Texte CTA",    "default": "Voir tout" },
+    { "type": "url",        "id": "cta_url",       "label": "Lien CTA" }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Produit",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Produit" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Produits mis en avant", "settings": { "label": "★ Les chouchous", "title": "Ceux qui cartonnent." } }
+  ]
+}
+{% endschema %}

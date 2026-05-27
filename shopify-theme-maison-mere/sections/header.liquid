@@ -1,0 +1,144 @@
+<header class="m-header" role="banner">
+  <div class="m-header__inner">
+
+    <!-- Logo -->
+    <a href="{{ routes.root_url }}" class="m-header__logo" aria-label="{{ shop.name }}">
+      {%- if section.settings.logo != blank -%}
+        <img src="{{ section.settings.logo | image_url: height: 48 }}"
+             alt="{{ shop.name }}"
+             height="48"
+             loading="eager"
+             style="height:48px;width:auto;display:block;">
+      {%- else -%}
+        {%- assign logo_parts = section.settings.logo_text | split: ' ' -%}
+        {%- if logo_parts.size > 1 -%}
+          {{ logo_parts | first }}&nbsp;<span>{{ logo_parts | last }}</span>
+        {%- else -%}
+          Maison <span>Mère</span>
+        {%- endif -%}
+      {%- endif -%}
+    </a>
+
+    <!-- Navigation desktop -->
+    <nav aria-label="Navigation principale">
+      <ul class="m-header__nav">
+        {%- for link in section.settings.menu.links -%}
+          <li>
+            <a href="{{ link.url }}"
+               {% if link.active %}class="is-active" aria-current="page"{% endif %}>
+              {{ link.title }}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <!-- Actions -->
+    <div class="m-header__actions">
+      <!-- Recherche -->
+      {%- if section.settings.show_search -%}
+        <a href="{{ routes.search_url }}" class="m-btn-icon" aria-label="Rechercher">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </a>
+      {%- endif -%}
+
+      <!-- Compte -->
+      {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
+        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+           class="m-btn-icon" aria-label="Mon compte">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      {%- endif -%}
+
+      <!-- Panier -->
+      <button class="m-btn-icon m-cart-bubble" data-open-cart aria-label="Ouvrir le panier — {{ cart.item_count }} article{{ cart.item_count | plural: '', 's' }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="m-cart-bubble__count"
+              style="{%- if cart.item_count == 0 -%}display:none{%- endif -%}">
+          {{ cart.item_count }}
+        </span>
+      </button>
+
+      <!-- Menu mobile -->
+      <button class="m-btn-icon" data-menu-toggle aria-label="Menu" aria-expanded="false" style="display:none;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <nav class="m-mobile-nav" aria-label="Navigation mobile" style="
+    display:none;
+    padding: 20px var(--page-x);
+    border-top: 1px dashed var(--rule);
+    background: var(--paper);
+    flex-direction: column;
+    gap: 16px;
+  ">
+    {%- for link in section.settings.menu.links -%}
+      <a href="{{ link.url }}"
+         style="font: italic 500 22px/1 var(--display); color: var(--ink);"
+         {% if link.active %}aria-current="page"{% endif %}>
+        {{ link.title }}
+      </a>
+    {%- endfor -%}
+  </nav>
+</header>
+
+<style>
+  @media (max-width: 768px) {
+    .m-header__nav { display: none; }
+    [data-menu-toggle] { display: inline-flex !important; }
+    .m-mobile-nav.is-open { display: flex !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Texte du logo (si pas d'image)",
+      "default": "Maison Mère"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu principal",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Afficher la recherche",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Afficher le compte",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

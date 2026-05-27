@@ -1,0 +1,30 @@
+{% comment %}
+  Star sticker — Goûtu theme
+  Usage: {% render 'star-sticker', label: 'NEW', color: '#FF6A00', size: 100, rotate: -12 %}
+{% endcomment %}
+
+{%- assign s_label  = label  | default: 'NEW' -%}
+{%- assign s_color  = color  | default: 'var(--accent)' -%}
+{%- assign s_size   = size   | default: 90 -%}
+{%- assign s_rotate = rotate | default: 0 -%}
+{%- assign s_font   = s_size | times: 0.12 | floor -%}
+
+<div style="
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: {{ s_size }}px;
+  height: {{ s_size }}px;
+  background: {{ s_color }};
+  clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  transform: rotate({{ s_rotate }}deg);
+  color: var(--ink);
+  font: 900 {{ s_font }}px/1.1 var(--display);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  text-align: center;
+  flex-shrink: 0;
+  {% if style %}{{ style }}{% endif %}
+" aria-hidden="true">
+  {{ s_label | upcase }}
+</div>

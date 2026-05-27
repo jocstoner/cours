@@ -1,0 +1,135 @@
+<!-- SECTION: Main Collection — Maison Mère -->
+
+{%- paginate collection.products by section.settings.products_per_page -%}
+
+<!-- En-tête collection -->
+<div class="m-collection-header">
+  {%- if collection.image -%}
+    <div style="position:absolute;right:-40px;top:40px;opacity:0.3;pointer-events:none;">
+      <img src="{{ collection.image | image_url: width: 400 }}"
+           alt="" aria-hidden="true"
+           style="width:300px;height:400px;object-fit:cover;mask-image:linear-gradient(to left,white,transparent);">
+    </div>
+  {%- else -%}
+    <!-- Illustration botanique décorative -->
+    <div style="position:absolute;right:-40px;top:40px;opacity:0.3;pointer-events:none;">
+      {%- render 'botanical-svg', type: 'lavande', color: 'var(--accent)', width: '180px', height: '320px' -%}
+    </div>
+  {%- endif -%}
+
+  <div style="position:relative;">
+    <div class="m-label">
+      Au comptoir · {{ collection.products_count }} pot{{ collection.products_count | plural: '', 's' }}
+    </div>
+    <h1 class="m-collection-header__title">
+      {%- if collection.handle == 'all' -%}
+        Tout le <em>comptoir.</em>
+      {%- else -%}
+        <em>{{ collection.title }}</em>
+      {%- endif -%}
+    </h1>
+    {%- if collection.description != blank -%}
+      <p style="margin-top:18px;font:italic 400 19px/1.5 var(--display);color:var(--ink-mute);max-width:540px;">
+        {{ collection.description | strip_html | truncate: 160 }}
+      </p>
+    {%- endif -%}
+  </div>
+
+  <!-- Filtres par gamme -->
+  <div class="m-collection-filters">
+    <button class="m-chip {% if current_tags == blank %}is-active{% endif %}"
+            data-filter="all"
+            onclick="location.href='{{ collection.url }}'">
+      Tout
+    </button>
+    {%- for tag in collection.all_tags -%}
+      {%- unless tag contains ':' -%}
+        <button class="m-chip {% if current_tags contains tag %}is-active{% endif %}"
+                data-filter="{{ tag | handleize }}"
+                onclick="location.href='{{ collection.url }}/{{ tag | handleize }}'">
+          {{ tag }}
+        </button>
+      {%- endunless -%}
+    {%- endfor -%}
+
+    <!-- Tri -->
+    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;color:var(--ink-mute);">
+      Trier par
+      <select onchange="location.href=this.value"
+              style="background:transparent;border:0;font-family:inherit;font-size:12px;color:var(--accent);border-bottom:1px solid var(--accent);margin-left:6px;padding:4px 6px;cursor:pointer;">
+        <option value="{{ collection.url }}?sort_by=created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>nouveautés</option>
+        <option value="{{ collection.url }}?sort_by=price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>prix croissant</option>
+        <option value="{{ collection.url }}?sort_by=best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>chouchous</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Grille produits -->
+<section style="padding:var(--section-y) var(--page-x);max-width:1600px;margin:0 auto;">
+  {%- if collection.products.size > 0 -%}
+    <div class="m-products-grid" style="row-gap:calc(var(--gap-y) * 2);">
+      {%- for product in collection.products -%}
+        {%- render 'product-card',
+            product: product,
+            image_style: section.settings.image_style -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- Pagination -->
+    {%- if paginate.pages > 1 -%}
+      <div style="margin-top:60px;display:flex;justify-content:center;align-items:center;gap:12px;">
+        {%- if paginate.previous -%}
+          <a href="{{ paginate.previous.url }}" class="m-btn-ghost">← Précédent</a>
+        {%- endif -%}
+        <span style="font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-mute);">
+          Page {{ paginate.current_page }} sur {{ paginate.pages }}
+        </span>
+        {%- if paginate.next -%}
+          <a href="{{ paginate.next.url }}" class="m-btn-primary">Suivant →</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    <div style="padding:80px 0;text-align:center;">
+      <p style="font:italic 400 20px/1.5 var(--display);color:var(--ink-mute);">
+        Cette gamme arrive bientôt.
+      </p>
+      <a href="{{ routes.all_products_collection_url }}"
+         class="m-btn-primary" style="margin-top:24px;display:inline-flex;">
+        Voir tout le comptoir →
+      </a>
+    </div>
+  {%- endif -%}
+</section>
+
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection principale",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Produits par page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "image_style",
+      "label": "Style des images",
+      "options": [
+        { "value": "rounded", "label": "Arrondi" },
+        { "value": "square",  "label": "Carré" },
+        { "value": "circle",  "label": "Médaillon" },
+        { "value": "blob",    "label": "Blob" }
+      ],
+      "default": "rounded"
+    }
+  ]
+}
+{% endschema %}

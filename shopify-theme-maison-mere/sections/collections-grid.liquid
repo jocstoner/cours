@@ -1,0 +1,170 @@
+<!-- SECTION: Collections grid — Maison Mère -->
+<!-- 5 gammes en étagère avec illustrations botaniques -->
+
+<section class="m-gammes-section">
+  <header class="m-gammes-header">
+    <div class="m-gammes-header__rule">
+      <span class="m-label">{{ section.settings.label | default: 'Au comptoir' }}</span>
+      <span class="m-gammes-header__line"></span>
+    </div>
+    <h2 style="font:normal 500 clamp(44px,5.5vw,88px)/1 var(--display);letter-spacing:-0.02em;margin:0;">
+      {{ section.settings.title | default: 'Cinq familles, <em>une cuisine</em>,<br>et trente recettes.' }}
+    </h2>
+  </header>
+
+  <div class="m-gammes-grid">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'collection_card' -%}
+        {%- assign coll       = block.settings.collection -%}
+        {%- assign card_color = block.settings.color | default: '#c46a2e' -%}
+        {%- assign card_tint  = block.settings.tint_bg | default: '#f0d4b8' -%}
+        {%- assign botanical  = block.settings.botanical_type | default: 'thym' -%}
+
+        <a href="{%- if coll != blank -%}{{ coll.url }}{%- else -%}{{ routes.all_products_collection_url }}{%- endif -%}"
+           class="m-gamme-card"
+           data-tint-color="{{ card_color }}"
+           data-tint-bg="{{ card_tint }}"
+           data-tint-hover="true"
+           {{ block.shopify_attributes }}
+           style="color:var(--ink);text-decoration:none;"
+           onmouseover="this.style.background='{{ card_tint }}'"
+           onmouseout="this.style.background=''">
+
+          <div class="m-gamme-card__tag" style="color:{{ card_color }};">
+            ✿ {{ block.settings.tag | default: 'Récoltés à la cuillère' }}
+          </div>
+
+          <div class="m-gamme-card__botanical">
+            {%- render 'botanical-svg',
+                type: botanical,
+                color: card_color,
+                width: '65%',
+                height: '160px' -%}
+          </div>
+
+          <h3 class="m-gamme-card__name">
+            {%- if coll != blank -%}
+              {{ coll.title }}
+            {%- else -%}
+              {{ block.settings.name | default: 'Miels' }}
+            {%- endif -%}
+          </h3>
+
+          <p class="m-gamme-card__blurb">
+            {%- if coll != blank and coll.description != blank -%}
+              {{ coll.description | strip_html | truncate: 80 }}
+            {%- else -%}
+              {{ block.settings.description | default: 'On parle aux abeilles. Elles travaillent. On embouteille.' }}
+            {%- endif -%}
+          </p>
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+
+    <!-- Fallback si pas de blocs configurés -->
+    {%- if section.blocks.size == 0 -%}
+      {%- assign fallback_gammes = 'Miels|#d97a2a|#f5d4ad|thym|Récoltés à la cuillère|On parle aux abeilles. Elles travaillent. On embouteille.,Biscuits|#9c4f24|#e6c5a8|fleur|Au four à bois|Beurre, farine, plante du jardin.,Infusions|#5d7345|#c8d4b0|lavande|Séchées à l\'ombre|Des plantes entières, cueillies au juste moment.,Huiles|#7a5a24|#dcc794|thym|Macération solaire|On laisse les plantes infuser six semaines au soleil.,Ghees|#b88234|#ebd5a8|abeille|Sur feu doux|Beurre AOP, feu doux, patience.' | split: ',' -%}
+      {%- for gamme_str in fallback_gammes -%}
+        {%- assign g = gamme_str | split: '|' -%}
+        <div class="m-gamme-card" style="color:var(--ink);"
+             onmouseover="this.style.background='{{ g[2] }}'"
+             onmouseout="this.style.background=''">
+          <div class="m-gamme-card__tag" style="color:{{ g[1] }};">✿ {{ g[4] }}</div>
+          <div class="m-gamme-card__botanical">
+            {%- render 'botanical-svg', type: g[3], color: g[1], width: '65%', height: '160px' -%}
+          </div>
+          <h3 class="m-gamme-card__name">{{ g[0] }}</h3>
+          <p class="m-gamme-card__blurb">{{ g[5] }}</p>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Grille des gammes",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Étiquette (petite ligne)",
+      "default": "Au comptoir"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Titre de section",
+      "default": "<p>Cinq familles, <em>une cuisine</em>,<br>et trente recettes.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Gamme",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection Shopify"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Nom de la gamme (si pas de collection)",
+          "default": "Miels"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Accroche",
+          "default": "Récoltés à la cuillère"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description courte",
+          "default": "On parle aux abeilles. Elles travaillent. On embouteille."
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Couleur principale",
+          "default": "#c46a2e"
+        },
+        {
+          "type": "color",
+          "id": "tint_bg",
+          "label": "Teinte de fond",
+          "default": "#f0d4b8"
+        },
+        {
+          "type": "select",
+          "id": "botanical_type",
+          "label": "Illustration botanique",
+          "options": [
+            { "value": "thym",    "label": "Thym" },
+            { "value": "lavande", "label": "Lavande" },
+            { "value": "fleur",   "label": "Fleur" },
+            { "value": "abeille", "label": "Abeille" }
+          ],
+          "default": "thym"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Grille des gammes",
+      "blocks": [
+        { "type": "collection_card", "settings": { "name": "Miels",    "tag": "Récoltés à la cuillère", "color": "#d97a2a", "tint_bg": "#f5d4ad", "botanical_type": "thym" } },
+        { "type": "collection_card", "settings": { "name": "Biscuits", "tag": "Au four à bois",          "color": "#9c4f24", "tint_bg": "#e6c5a8", "botanical_type": "fleur" } },
+        { "type": "collection_card", "settings": { "name": "Infusions","tag": "Séchées à l'ombre",       "color": "#5d7345", "tint_bg": "#c8d4b0", "botanical_type": "lavande" } },
+        { "type": "collection_card", "settings": { "name": "Huiles",   "tag": "Macération solaire",      "color": "#7a5a24", "tint_bg": "#dcc794", "botanical_type": "thym" } },
+        { "type": "collection_card", "settings": { "name": "Ghees",    "tag": "Sur feu doux",            "color": "#b88234", "tint_bg": "#ebd5a8", "botanical_type": "abeille" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,16 @@
+<article class="g-page" style="padding:calc(var(--hero-y) * 0.6) var(--page-x);">
+  <div class="g-page__inner">
+    <h1 style="font:900 clamp(48px,7vw,96px)/0.92 var(--display);letter-spacing:-0.035em;margin:0 0 40px;">
+      {{ page.title }}
+    </h1>
+    <div class="g-page__body" style="font:500 18px/1.75 var(--body);max-width:760px;">
+      {{ page.content }}
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Page"
+}
+{% endschema %}

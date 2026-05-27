@@ -1,0 +1,95 @@
+<section style="padding:var(--section-y) var(--page-x);">
+  <div class="g-newsletter">
+    <div class="g-newsletter__blob-r" aria-hidden="true">
+      {%- render 'blob', index: 0, color: 'var(--ink)', size: 300, opacity: 0.6 -%}
+    </div>
+    <div class="g-newsletter__blob-l" aria-hidden="true">
+      {%- render 'blob', index: 2, color: 'var(--ink)', size: 200, opacity: 0.6 -%}
+    </div>
+    <div class="g-newsletter__content">
+      {%- render 'star-sticker', label: 'JOIN', color: 'var(--bg)', size: 100, rotate: -12 -%}
+      <h2 class="g-newsletter__title">{{ section.settings.title | default: '-10% sur ta première commande.' }}</h2>
+      <p class="g-newsletter__sub">{{ section.settings.sub | default: 'Plus des recettes, des nouveautés, et les ventes privées. Une fois par mois max, promis.' }}</p>
+
+      {%- form 'customer', class: 'g-newsletter__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+          <p style="font:700 16px/1.5 var(--body);padding:20px;background:var(--bg);border:var(--border);border-radius:999px;margin:0 auto;max-width:500px;">
+            ✓ {{ 'newsletter.success' | t | default: 'Merci ! Check ton inbox.' }}
+          </p>
+        {%- else -%}
+          <div class="g-newsletter__row">
+            <input type="email" name="contact[email]"
+                   placeholder="{{ section.settings.placeholder | default: 'ton@email.com' }}"
+                   required
+                   style="flex:1;padding:0 20px;height:56px;border:var(--border);border-radius:999px;background:var(--bg);font:600 16px/1 var(--body);outline:none;color:var(--ink);">
+            <button type="submit" class="g-btn-primary">
+              {{ section.settings.btn | default: 'Go!' }}
+            </button>
+          </div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .g-newsletter {
+    background: var(--accent);
+    border: var(--border);
+    border-radius: 32px;
+    padding: clamp(50px, 6vw, 100px) clamp(40px, 5vw, 80px);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: background .6s;
+  }
+  .g-newsletter__blob-r {
+    position: absolute;
+    right: -80px;
+    top: -80px;
+  }
+  .g-newsletter__blob-l {
+    position: absolute;
+    left: -50px;
+    bottom: -80px;
+  }
+  .g-newsletter__content { position: relative; }
+  .g-newsletter__title {
+    font: 900 clamp(36px, 5vw, 72px)/0.95 var(--display);
+    letter-spacing: -0.03em;
+    margin: 18px 0 0;
+    color: var(--ink);
+  }
+  .g-newsletter__sub {
+    margin: 20px auto 0;
+    font: 600 18px/1.55 var(--body);
+    color: var(--ink);
+    max-width: 540px;
+  }
+  .g-newsletter__form { margin-top: 32px; }
+  .g-newsletter__row {
+    display: flex;
+    gap: 10px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  @media (max-width: 600px) {
+    .g-newsletter__row { flex-direction: column; }
+    .g-newsletter__row input { border-radius: 999px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "title",       "label": "Titre",       "default": "-10% sur ta première commande." },
+    { "type": "text", "id": "sub",         "label": "Sous-titre",  "default": "Plus des recettes, des nouveautés, et les ventes privées. Une fois par mois max, promis." },
+    { "type": "text", "id": "placeholder", "label": "Placeholder", "default": "ton@email.com" },
+    { "type": "text", "id": "btn",         "label": "Bouton",      "default": "Go!" }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

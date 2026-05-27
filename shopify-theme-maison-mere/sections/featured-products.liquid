@@ -1,0 +1,117 @@
+<!-- SECTION: Best-sellers / Produits mis en avant — Maison Mère -->
+
+<section class="m-products-section">
+  <header class="m-products-section__header">
+    <div>
+      <div class="m-label">{{ section.settings.label | default: '★ Les chouchous' }}</div>
+      <h2 style="font:normal 500 clamp(38px,5vw,76px)/1 var(--display);letter-spacing:-0.02em;margin:16px 0 0;">
+        {{ section.settings.title | default: 'Ceux qu\'on recommande <em>les yeux fermés.</em>' }}
+      </h2>
+    </div>
+    {%- if section.settings.cta_label != blank -%}
+      <a href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}"
+         class="m-btn-link">
+        {{ section.settings.cta_label }}
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    {%- endif -%}
+  </header>
+
+  <div class="m-products-grid">
+    {%- if section.settings.collection != blank -%}
+      {%- assign coll = section.settings.collection -%}
+      {%- assign prods = coll.products | where: 'available' -%}
+      {%- assign limit = section.settings.products_count | default: 4 -%}
+      {%- for product in prods limit: limit -%}
+        {%- render 'product-card', product: product, image_style: section.settings.image_style -%}
+      {%- endfor -%}
+    {%- elsif section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'product' and block.settings.product != blank -%}
+          {%- render 'product-card',
+              product: block.settings.product,
+              image_style: section.settings.image_style -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      <!-- Message si pas de produits configurés -->
+      <div style="grid-column:1/-1;padding:60px;text-align:center;">
+        <p style="font:italic 400 18px/1.5 var(--display);color:var(--ink-mute);">
+          Configurez vos produits phares dans le customiseur du thème.
+        </p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Produits mis en avant",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Étiquette",
+      "default": "★ Les chouchous"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Titre",
+      "default": "<p>Ceux qu'on recommande <em>les yeux fermés.</em></p>"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection à afficher"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "label": "Nombre de produits",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "image_style",
+      "label": "Style des images",
+      "options": [
+        { "value": "rounded", "label": "Arrondi" },
+        { "value": "square",  "label": "Carré strict" },
+        { "value": "circle",  "label": "Médaillon rond" },
+        { "value": "blob",    "label": "Blob organique" }
+      ],
+      "default": "rounded"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Lien «Voir tout» — texte",
+      "default": "Voir tout le comptoir"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Lien «Voir tout» — URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Produit",
+      "limit": 8,
+      "settings": [
+        { "type": "product", "id": "product", "label": "Produit" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Produits mis en avant" }
+  ]
+}
+{% endschema %}

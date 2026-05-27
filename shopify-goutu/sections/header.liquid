@@ -1,0 +1,116 @@
+<header class="g-header" role="banner">
+  <div class="g-header__inner">
+
+    <!-- Logo -->
+    <a href="{{ routes.root_url }}" class="g-header__logo" aria-label="{{ shop.name }}">
+      {%- if section.settings.logo != blank -%}
+        <img src="{{ section.settings.logo | image_url: height: 48 }}"
+             alt="{{ shop.name }}" height="48" loading="eager" style="height:48px;width:auto;">
+      {%- else -%}
+        {%- assign logo_parts = section.settings.logo_text | split: '.' -%}
+        {%- if logo_parts.size > 1 -%}
+          {{ logo_parts.first }}<em>.</em>
+        {%- else -%}
+          Goûtu<em>.</em>
+        {%- endif -%}
+      {%- endif -%}
+    </a>
+
+    <!-- Navigation desktop -->
+    <nav aria-label="Navigation principale">
+      <ul class="g-header__nav">
+        {%- for link in section.settings.menu.links -%}
+          <li>
+            <a href="{{ link.url }}" {% if link.active %}class="is-active" aria-current="page"{% endif %}>
+              {{ link.title }}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <!-- Actions -->
+    <div class="g-header__actions">
+      {%- if section.settings.show_search -%}
+        <a href="{{ routes.search_url }}" class="g-btn-icon" aria-label="Rechercher">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
+        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+           class="g-btn-icon" aria-label="Mon compte">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      {%- endif -%}
+
+      <button class="g-btn-icon g-cart-bubble" data-open-cart
+              aria-label="Ouvrir le panier — {{ cart.item_count }} article{{ cart.item_count | plural: '', 's' }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="g-cart-bubble__count" style="{%- if cart.item_count == 0 -%}display:none{%- endif -%}">
+          {{ cart.item_count }}
+        </span>
+      </button>
+
+      <button class="g-btn-icon" data-menu-toggle aria-label="Menu" aria-expanded="false" style="display:none;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <nav class="g-mobile-nav" style="display:none;padding:20px var(--page-x);border-top:var(--border);background:var(--bg);flex-direction:column;gap:12px;">
+    {%- for link in section.settings.menu.links -%}
+      <a href="{{ link.url }}"
+         style="font:900 24px/1 var(--display);letter-spacing:-0.02em;color:var(--ink);padding:8px 0;"
+         {% if link.active %}aria-current="page"{% endif %}>
+        {{ link.title }}
+      </a>
+    {%- endfor -%}
+  </nav>
+</header>
+
+<style>
+  @media (max-width: 768px) {
+    .g-header__nav { display: none !important; }
+    [data-menu-toggle] { display: inline-flex !important; }
+    .g-mobile-nav.is-open { display: flex !important; }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.querySelector('[data-menu-toggle]');
+    const nav    = document.querySelector('.g-mobile-nav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "settings": [
+    { "type": "image_picker", "id": "logo",      "label": "Logo" },
+    { "type": "text",         "id": "logo_text",  "label": "Texte du logo (si pas d'image)", "default": "Goûtu." },
+    { "type": "link_list",    "id": "menu",       "label": "Menu principal", "default": "main-menu" },
+    { "type": "checkbox",     "id": "show_search","label": "Afficher la recherche", "default": true },
+    { "type": "checkbox",     "id": "show_account","label": "Afficher le compte",   "default": true }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,69 @@
+{
+  "general": {
+    "password_page": {
+      "title": "Cette boutique ouvre bientôt",
+      "subtext": "Revenez très vite.",
+      "password_label": "Mot de passe",
+      "password_placeholder": "Votre mot de passe",
+      "submit": "Entrer"
+    },
+    "pagination": {
+      "previous": "← Précédent",
+      "next": "Suivant →"
+    },
+    "search": {
+      "placeholder": "Rechercher dans le comptoir…",
+      "submit": "Chercher"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Ajouter au panier",
+      "sold_out": "Épuisé",
+      "unavailable": "Indisponible",
+      "from": "À partir de",
+      "quantity": "Quantité",
+      "description": "Description",
+      "vendor": "Producteur",
+      "related": "Dans la même famille"
+    }
+  },
+  "cart": {
+    "title": "Le panier",
+    "empty": "Votre panier est vide.",
+    "continue_shopping": "Continuer les emplettes",
+    "checkout": "Passer la commande",
+    "total": "Total",
+    "remove": "Retirer",
+    "update": "Mettre à jour"
+  },
+  "collection": {
+    "title": "Collection",
+    "all_products": "Tout le comptoir",
+    "products_found": "{{ count }} produit trouvé",
+    "products_found_plural": "{{ count }} produits trouvés",
+    "sort_by_label": "Trier par",
+    "sort_by": {
+      "manual": "Sélection",
+      "best-selling": "Chouchous",
+      "title-ascending": "A–Z",
+      "title-descending": "Z–A",
+      "price-ascending": "Prix croissant",
+      "price-descending": "Prix décroissant",
+      "created-ascending": "Anciens",
+      "created-descending": "Nouveautés"
+    }
+  },
+  "newsletter": {
+    "success": "★ Merci ! Vous recevrez notre prochaine lettre.",
+    "placeholder": "votre adresse",
+    "button": "M'inscrire"
+  },
+  "accessibility": {
+    "skip_to_content": "Aller au contenu",
+    "open_cart": "Ouvrir le panier",
+    "close_cart": "Fermer le panier",
+    "open_menu": "Ouvrir le menu",
+    "close_menu": "Fermer le menu"
+  }
+}

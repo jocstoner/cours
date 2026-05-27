@@ -1,0 +1,190 @@
+<section class="g-collections-grid" style="padding:var(--section-y) var(--page-x);">
+  <div class="g-collections-grid__head">
+    <div>
+      <span class="g-pill" style="background:var(--accent);">5 familles</span>
+      <h2 class="g-collections-grid__title">
+        Le rayon <span style="color:var(--accent);">complet</span>.
+      </h2>
+    </div>
+    <a href="{{ routes.all_products_collection_url }}" class="g-btn-ghost">
+      Tout voir →
+    </a>
+  </div>
+
+  <div class="g-collections-grid__grid">
+    {%- for block in section.blocks -%}
+      {%- assign g_color  = block.settings.color  | default: 'var(--accent)' -%}
+      {%- assign g_tint   = block.settings.tint    | default: 'var(--accent-tint)' -%}
+      {%- assign g_accent = block.settings.accent  | default: g_color -%}
+      <a href="{{ block.settings.collection_url | default: routes.all_products_collection_url }}"
+         class="g-gamme-card"
+         style="background:{{ g_tint }};"
+         data-tint-color="{{ g_color }}"
+         data-tint-bg="{{ g_tint }}"
+         data-tint-hover="true"
+         {{ block.shopify_attributes }}>
+        <div class="g-gamme-card__blob" aria-hidden="true">
+          {%- render 'blob', index: forloop.index0, color: g_color, size: 240 -%}
+        </div>
+        <div class="g-gamme-card__top">
+          <span class="g-pill" style="background:var(--bg);">{{ block.settings.tag }}</span>
+          <span class="g-gamme-card__emoji" style="font-size:36px;transform:rotate(-10deg);filter:drop-shadow(2px 2px 0 var(--ink));">
+            {{ block.settings.emoji | default: '🌿' }}
+          </span>
+        </div>
+        <div class="g-gamme-card__bottom">
+          <h3 class="g-gamme-card__name">{{ block.settings.name }}</h3>
+          <p class="g-gamme-card__blurb">{{ block.settings.blurb }}</p>
+          <div class="g-gamme-card__cta">Voir →</div>
+        </div>
+      </a>
+    {%- else -%}
+      {%- comment -%} Fallback hardcodé si pas de blocs configurés {%- endcomment -%}
+      {%- assign fallback_gammes = 'Miels,Biscuits,Infusions,Huiles & macérats,Ghees' | split: ',' -%}
+      {%- assign fallback_emojis = '🍯,🍪,🫖,🌿,🧈' | split: ',' -%}
+      {%- assign fallback_colors = '#FF6A00,#E94B7E,#7DBF3E,#8B6914,#F4B226' | split: ',' -%}
+      {%- assign fallback_tints  = '#FFD7B5,#FBDDE9,#DCEFD0,#E8D8A4,#FDF0C6' | split: ',' -%}
+      {%- for name in fallback_gammes -%}
+        {%- assign fi = forloop.index0 -%}
+        <div class="g-gamme-card"
+             style="background:{{ fallback_tints[fi] }};"
+             data-tint-color="{{ fallback_colors[fi] }}"
+             data-tint-bg="{{ fallback_tints[fi] }}"
+             data-tint-hover="true">
+          <div class="g-gamme-card__blob" aria-hidden="true">
+            {%- render 'blob', index: fi, color: fallback_colors[fi], size: 240 -%}
+          </div>
+          <div class="g-gamme-card__top">
+            <span class="g-pill" style="background:var(--bg);">Gamme</span>
+            <span class="g-gamme-card__emoji">{{ fallback_emojis[fi] }}</span>
+          </div>
+          <div class="g-gamme-card__bottom">
+            <h3 class="g-gamme-card__name">{{ name }}</h3>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+<style>
+  .g-collections-grid__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: calc(var(--section-y) * 0.5);
+  }
+  .g-collections-grid__title {
+    font: 900 clamp(48px, 6vw, 88px)/0.95 var(--display);
+    letter-spacing: -0.035em;
+    margin: 16px 0 0;
+  }
+  .g-collections-grid__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--gap-x);
+  }
+  .g-gamme-card {
+    position: relative;
+    aspect-ratio: 4/5;
+    border: var(--border);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    padding: 24px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--ink);
+    transition: transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .25s;
+  }
+  .g-gamme-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 10px 10px 0 var(--ink);
+  }
+  .g-gamme-card__blob {
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .g-gamme-card__top {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .g-gamme-card__emoji {
+    font-size: 36px;
+    line-height: 1;
+    transform: rotate(-10deg);
+    filter: drop-shadow(2px 2px 0 var(--ink));
+  }
+  .g-gamme-card__bottom { position: relative; }
+  .g-gamme-card__name {
+    font: 900 clamp(28px, 2.5vw, 40px)/0.95 var(--display);
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .g-gamme-card__blurb {
+    margin-top: 10px;
+    font: 500 14px/1.45 var(--body);
+    color: var(--ink);
+  }
+  .g-gamme-card__cta {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 800 14px/1 var(--display);
+    color: var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 2px;
+  }
+  @media (max-width: 1024px) {
+    .g-collections-grid__grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .g-collections-grid__grid { grid-template-columns: repeat(2, 1fr); }
+    .g-collections-grid__head { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Gammes",
+  "blocks": [
+    {
+      "type": "gamme_card",
+      "name": "Carte gamme",
+      "settings": [
+        { "type": "text",  "id": "name",           "label": "Nom de la gamme" },
+        { "type": "text",  "id": "tag",            "label": "Tag (court)" },
+        { "type": "text",  "id": "emoji",          "label": "Emoji", "default": "🌿" },
+        { "type": "textarea","id": "blurb",        "label": "Description courte" },
+        { "type": "url",   "id": "collection_url", "label": "Lien collection" },
+        { "type": "color", "id": "color",          "label": "Couleur principale" },
+        { "type": "color", "id": "tint",           "label": "Couleur de fond" },
+        { "type": "color", "id": "accent",         "label": "Couleur accent" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gammes",
+      "blocks": [
+        { "type": "gamme_card", "settings": { "name": "Miels",            "tag": "Douceur",   "emoji": "🍯", "color": "#FF6A00", "tint": "#FFD7B5" } },
+        { "type": "gamme_card", "settings": { "name": "Biscuits",         "tag": "Gourmand",  "emoji": "🍪", "color": "#E94B7E", "tint": "#FBDDE9" } },
+        { "type": "gamme_card", "settings": { "name": "Infusions",        "tag": "Bien-être", "emoji": "🫖", "color": "#7DBF3E", "tint": "#DCEFD0" } },
+        { "type": "gamme_card", "settings": { "name": "Huiles",           "tag": "Soin",      "emoji": "🌿", "color": "#8B6914", "tint": "#E8D8A4" } },
+        { "type": "gamme_card", "settings": { "name": "Ghees",            "tag": "Cuisine",   "emoji": "🧈", "color": "#F4B226", "tint": "#FDF0C6" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

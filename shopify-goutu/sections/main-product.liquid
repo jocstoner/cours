@@ -1,0 +1,388 @@
+{%- assign card_color  = product.metafields.custom.tint_color.value  | default: '#FF6A00' -%}
+{%- assign card_tint   = product.metafields.custom.tint_bg.value     | default: '#FFD7B5' -%}
+{%- assign card_accent = product.metafields.custom.tint_accent.value | default: card_color -%}
+{%- assign card_punch  = product.metafields.custom.punch.value       | default: product.description | strip_html | truncate: 80 -%}
+{%- assign card_emoji  = product.metafields.custom.emoji.value       | default: '🌿' -%}
+{%- assign card_drop   = product.metafields.custom.drop.value        | default: product.type -%}
+
+<nav aria-label="Fil d'Ariane" style="padding:20px var(--page-x) 0;font:700 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute);">
+  <a href="{{ routes.root_url }}" style="color:var(--ink-mute);text-decoration:none;">Boutique</a>
+  <span style="margin:0 8px;">→</span>
+  {%- if product.collections.first != blank -%}
+    <a href="{{ product.collections.first.url }}" style="color:var(--accent);text-decoration:none;">{{ product.collections.first.title }}</a>
+    <span style="margin:0 8px;">→</span>
+  {%- endif -%}
+  {{ product.title }}
+</nav>
+
+<section class="g-product-page" style="padding:calc(var(--section-y) * 0.4) var(--page-x) var(--section-y);">
+  <!-- Media -->
+  <div class="g-product-page__media">
+    <div class="g-product-page__visual g-product-page__visual--{{ section.settings.image_style }}"
+         style="background:{{ card_tint }};transition:background .6s;">
+      <div class="g-product-page__visual-blob" aria-hidden="true">
+        {%- render 'blob', index: 2, color: card_color, size: 600, opacity: 0.85 -%}
+      </div>
+      <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:center;width:100%;height:100%;">
+        {%- if product.featured_image -%}
+          <img src="{{ product.featured_image | image_url: width: 800 }}"
+               alt="{{ product.featured_image.alt | default: product.title | escape }}"
+               width="800"
+               style="width:75%;height:75%;object-fit:contain;"
+               loading="eager">
+        {%- else -%}
+          <svg viewBox="0 0 80 100" style="width:200px;height:250px;" aria-hidden="true">
+            <path d="M14 26 h52 v60 a4 4 0 0 1-4 4 H18 a4 4 0 0 1-4-4 z"
+                  fill="{{ card_tint }}" stroke="{{ card_color }}" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M18 16 h44 v10 H18 z"
+                  fill="{{ card_color }}" stroke="{{ card_color }}" stroke-width="2.5" stroke-linejoin="round"/>
+            <circle cx="40" cy="56" r="14" fill="var(--bg)" stroke="{{ card_color }}" stroke-width="2"/>
+            <text x="40" y="60" text-anchor="middle" font-family="'Fraunces',serif" font-weight="900" font-size="9" fill="{{ card_color }}">{{ product.type | upcase | truncate: 5, '' }}</text>
+          </svg>
+        {%- endif -%}
+      </div>
+      <div style="position:absolute;top:24px;right:24px;z-index:2;" aria-hidden="true">
+        {%- render 'star-sticker', label: 'NEW', color: card_color, size: 100, rotate: -12 -%}
+      </div>
+      {%- if card_drop != blank -%}
+        <div style="position:absolute;bottom:24px;left:24px;z-index:2;">
+          <span class="g-pill" style="background:var(--ink);color:var(--bg);">{{ card_drop }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if product.images.size > 1 -%}
+      <div class="g-product-page__thumbs">
+        {%- for image in product.images limit: 4 -%}
+          <button class="g-product-page__thumb{%- if forloop.first %} g-product-page__thumb--active{%- endif -%}"
+                  data-thumb-src="{{ image | image_url: width: 800 }}"
+                  style="background:{{ card_tint }};border:2.5px solid var(--ink);border-radius:12px;{%- if forloop.first %}box-shadow:3px 3px 0 var(--ink);{%- else %}opacity:0.5;{%- endif %}">
+            <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | escape }}" loading="lazy" style="width:80%;height:80%;object-fit:contain;">
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <!-- Info -->
+  <div class="g-product-page__info">
+    <span class="g-pill" style="background:{{ card_color }};">{{ card_emoji }} {{ product.type }}</span>
+    <h1 class="g-product-page__title">{{ product.title }}</h1>
+    {%- if card_punch != blank -%}
+      <p class="g-product-page__punch">« {{ card_punch }} »</p>
+    {%- endif -%}
+    <div class="g-product-page__desc">{{ product.description }}</div>
+
+    {%- if product.metafields.custom.benefits.value != blank -%}
+      <div class="g-product-page__bullets">
+        {%- assign benefits = product.metafields.custom.benefits.value | split: '|' -%}
+        {%- for b in benefits -%}
+          <span class="g-product-page__bullet">{{ b | strip }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <!-- Buy box -->
+    {%- form 'product', product, class: 'g-buy-box', data-add-to-cart: '' -%}
+      {%- unless product.has_only_default_variant -%}
+        <div style="margin-bottom:20px;">
+          {%- for option in product.options_with_values -%}
+            <label style="display:block;font:700 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;">
+              {{ option.name }}
+            </label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              {%- for value in option.values -%}
+                <label style="cursor:pointer;">
+                  <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}"
+                         form="{{ form.id }}"
+                         {%- if option.selected_value == value %} checked{%- endif -%}
+                         style="display:none;">
+                  <span class="g-chip" style="cursor:pointer;">{{ value }}</span>
+                </label>
+              {%- endfor -%}
+            </div>
+          {%- endfor -%}
+          <select name="id" style="display:none;" data-variant-select>
+            {%- for variant in product.variants -%}
+              <option value="{{ variant.id }}" {%- unless variant.available %} disabled{%- endunless -%}>
+                {{ variant.title }}
+              </option>
+            {%- endfor -%}
+          </select>
+        </div>
+      {%- else -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      {%- endunless -%}
+
+      <div class="g-buy-box__panel">
+        <div class="g-buy-box__price-row">
+          <div class="g-buy-box__price">
+            {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}<span style="font-size:.5em;"> €</span>
+          </div>
+          <div style="font:600 13px/1.3 var(--body);color:var(--ink-mute);text-align:right;">
+            Port offert dès 50 €<br>Expédié sous 48h
+          </div>
+        </div>
+        <div class="g-buy-box__actions">
+          <div class="g-qty-selector" data-qty-selector>
+            <button type="button" class="g-btn-icon" data-decrease style="width:56px;height:56px;border-radius:999px;" aria-label="Diminuer">−</button>
+            <input type="number" name="quantity" value="1" min="1" data-qty-input
+                   style="width:40px;text-align:center;border:0;background:transparent;font:800 16px/1 var(--display);color:var(--ink);">
+            <button type="button" class="g-btn-icon" data-increase style="width:56px;height:56px;border-radius:999px;" aria-label="Augmenter">+</button>
+          </div>
+          <button type="submit" class="g-btn-primary" style="flex:1;height:62px;">
+            Ajouter au panier →
+          </button>
+        </div>
+      </div>
+    {%- endform -%}
+
+    <!-- Tabs -->
+    <div class="g-product-tabs" style="margin-top:40px;">
+      <div class="g-product-tabs__nav" role="tablist">
+        <button class="g-product-tabs__btn g-product-tabs__btn--active"
+                role="tab" aria-selected="true" data-tab="histoire"
+                style="background:var(--ink);color:var(--bg);">Histoire</button>
+        <button class="g-product-tabs__btn"
+                role="tab" aria-selected="false" data-tab="comment">Comment</button>
+        <button class="g-product-tabs__btn"
+                role="tab" aria-selected="false" data-tab="compo">Composition</button>
+      </div>
+      <div class="g-product-tabs__panel" data-tab-panel="histoire" style="padding:24px 0;font:500 17px/1.7 var(--body);color:var(--ink);">
+        {%- if product.metafields.custom.histoire.value != blank -%}
+          {{ product.metafields.custom.histoire.value }}
+        {%- else -%}
+          {{ product.description | strip_html }}
+        {%- endif -%}
+      </div>
+      <div class="g-product-tabs__panel" data-tab-panel="comment" style="display:none;padding:24px 0;font:500 17px/1.7 var(--body);color:var(--ink);">
+        {%- if product.metafields.custom.mode_emploi.value != blank -%}
+          {{ product.metafields.custom.mode_emploi.value }}
+        {%- else -%}
+          1 à 3 cuillères par jour, dans une boisson tiède, sur une tartine, ou directement. Ne pas chauffer au-delà de 40°C.
+        {%- endif -%}
+      </div>
+      <div class="g-product-tabs__panel" data-tab-panel="compo" style="display:none;padding:24px 0;font:500 17px/1.7 var(--body);color:var(--ink);">
+        {%- if product.metafields.custom.composition.value != blank -%}
+          {{ product.metafields.custom.composition.value }}
+        {%- else -%}
+          100 % {{ product.title | downcase }} issu de l'agriculture biologique. Sans additif, sans conservateur, sans arôme ajouté.
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Related products -->
+{%- assign related_col = product.collections.first -%}
+{%- if related_col.products.size > 1 -%}
+  <section style="padding:var(--section-y) var(--page-x);background:var(--surface);border-top:var(--border);border-bottom:var(--border);">
+    <div style="margin-bottom:calc(var(--section-y) * 0.4);">
+      <span class="g-pill" style="background:var(--accent);">✨ Combos qui marchent</span>
+      <h2 style="font:900 clamp(40px, 5vw, 72px)/1 var(--display);letter-spacing:-0.03em;margin:16px 0 0;">
+        Ils vont <span style="color:var(--accent);">parfaitement</span> ensemble.
+      </h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap-x);">
+      {%- for rel in related_col.products limit: 4 -%}
+        {%- unless rel.id == product.id -%}
+          {%- render 'product-card', product: rel, image_style: section.settings.image_style -%}
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+<style>
+  .g-product-page {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .g-product-page__media { position: sticky; top: 130px; }
+  .g-product-page__visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    border: var(--border);
+    border-radius: {%- if section.settings.image_style == 'square' -%}0{%- elsif section.settings.image_style == 'blob' -%}0{%- else -%}24px{%- endif -%};
+    {%- if section.settings.image_style == 'blob' -%}
+    clip-path: polygon(20% 4%,70% 0%,96% 18%,100% 50%,92% 86%,60% 100%,22% 96%,0% 70%,4% 28%);
+    {%- endif -%}
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .g-product-page__visual-blob {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .g-product-page__thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .g-product-page__thumb {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+  }
+  .g-product-page__title {
+    font: 900 clamp(54px, 7vw, 100px)/0.92 var(--display);
+    letter-spacing: -0.04em;
+    margin: 16px 0 8px;
+  }
+  .g-product-page__punch {
+    font: 700 24px/1.3 var(--body);
+    color: var(--accent);
+    margin: 0;
+  }
+  .g-product-page__desc {
+    margin-top: 24px;
+    font: 500 18px/1.7 var(--body);
+    color: var(--ink);
+  }
+  .g-product-page__bullets {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .g-product-page__bullet {
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 2.5px solid var(--ink);
+    font: 700 14px/1 var(--body);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .g-buy-box { margin-top: 40px; }
+  .g-buy-box__panel {
+    background: var(--surface);
+    border: var(--border);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+  }
+  .g-buy-box__price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .g-buy-box__price {
+    font: 900 56px/1 var(--display);
+    letter-spacing: -0.04em;
+  }
+  .g-buy-box__actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    align-items: center;
+  }
+  .g-qty-selector {
+    display: inline-flex;
+    align-items: center;
+    border: var(--border);
+    border-radius: 999px;
+    background: var(--bg);
+  }
+  .g-product-tabs__nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .g-product-tabs__btn {
+    background: transparent;
+    color: var(--ink);
+    border: 2.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 10px 18px;
+    font: 700 14px/1 var(--body);
+    cursor: pointer;
+    text-transform: capitalize;
+    transition: all .2s;
+  }
+  .g-product-tabs__btn--active,
+  .g-product-tabs__btn:hover { background: var(--ink); color: var(--bg); }
+  @media (max-width: 1024px) {
+    .g-product-page { grid-template-columns: 1fr; gap: 40px; }
+    .g-product-page__media { position: static; }
+  }
+  @media (max-width: 600px) {
+    .g-buy-box__actions { flex-direction: column; }
+    .g-buy-box__actions .g-btn-primary { width: 100%; }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Apply tint on page load
+    if (window.Goutu && window.Goutu.tintEngine) {
+      window.Goutu.tintEngine.apply('{{ card_color }}', '{{ card_tint }}', '{{ card_accent }}');
+    }
+
+    // Thumb gallery
+    document.querySelectorAll('[data-thumb-src]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var src = this.dataset.thumbSrc;
+        var mainImg = document.querySelector('.g-product-page__visual img');
+        if (mainImg) mainImg.src = src;
+        document.querySelectorAll('.g-product-page__thumb').forEach(function(b) {
+          b.classList.remove('g-product-page__thumb--active');
+          b.style.opacity = '0.5';
+          b.style.boxShadow = 'none';
+        });
+        this.classList.add('g-product-page__thumb--active');
+        this.style.opacity = '1';
+        this.style.boxShadow = '3px 3px 0 var(--ink)';
+      });
+    });
+
+    // Tabs
+    document.querySelectorAll('[data-tab]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var tab = this.dataset.tab;
+        document.querySelectorAll('[data-tab]').forEach(function(b) {
+          b.classList.remove('g-product-tabs__btn--active');
+          b.style.background = 'transparent';
+          b.style.color = 'var(--ink)';
+        });
+        document.querySelectorAll('[data-tab-panel]').forEach(function(p) { p.style.display = 'none'; });
+        this.classList.add('g-product-tabs__btn--active');
+        this.style.background = 'var(--ink)';
+        this.style.color = 'var(--bg)';
+        var panel = document.querySelector('[data-tab-panel="' + tab + '"]');
+        if (panel) panel.style.display = 'block';
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Produit",
+  "settings": [
+    {
+      "type": "select",
+      "id": "image_style",
+      "label": "Style image",
+      "default": "rounded",
+      "options": [
+        { "value": "rounded", "label": "Arrondi" },
+        { "value": "square",  "label": "Carré" },
+        { "value": "blob",    "label": "Blob" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,111 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Goûtu",
+    "theme_version": "1.0.0",
+    "theme_author": "Goûtu Design",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Couleurs",
+    "settings": [
+      {
+        "type": "select",
+        "id": "color_palette",
+        "label": "Palette de couleurs",
+        "default": "vanille",
+        "options": [
+          { "value": "vanille",  "label": "Vanille & orange (défaut)" },
+          { "value": "citron",   "label": "Citron acidulé" },
+          { "value": "menthe",   "label": "Menthe fraîche" },
+          { "value": "lavande",  "label": "Lavande pop" },
+          { "value": "nuit",     "label": "Nuit — dark mode" }
+        ]
+      },
+      { "type": "color", "id": "color_bg",          "label": "Fond",           "default": "#FFFDF7" },
+      { "type": "color", "id": "color_surface",     "label": "Surface",        "default": "#F5F0E8" },
+      { "type": "color", "id": "color_ink",         "label": "Texte principal","default": "#1A1109" },
+      { "type": "color", "id": "color_ink_mute",    "label": "Texte secondaire","default": "#7A6856" },
+      { "type": "color", "id": "color_accent",      "label": "Accent",         "default": "#FF6A00" },
+      { "type": "color", "id": "color_accent_tint", "label": "Accent clair",   "default": "#FFD7B5" },
+      {
+        "type": "checkbox",
+        "id": "dark_mode",
+        "label": "Mode sombre",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Typographie",
+    "settings": [
+      {
+        "type": "select",
+        "id": "font_display",
+        "label": "Police d'affichage",
+        "default": "fraunces",
+        "options": [
+          { "value": "fraunces",      "label": "Fraunces (défaut)" },
+          { "value": "outfit",        "label": "Outfit" },
+          { "value": "space-grotesk", "label": "Space Grotesk" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Mise en page",
+    "settings": [
+      {
+        "type": "select",
+        "id": "density",
+        "label": "Densité",
+        "default": "comfortable",
+        "options": [
+          { "value": "compact",     "label": "Compact" },
+          { "value": "comfortable", "label": "Confortable (défaut)" },
+          { "value": "spacious",    "label": "Aéré" }
+        ]
+      },
+      { "type": "range", "id": "layout_padding",  "label": "Marge latérale (px)",   "min": 20, "max": 120, "step": 4, "default": 60 },
+      { "type": "range", "id": "hero_padding",     "label": "Padding hero (px)",      "min": 60, "max": 200, "step": 8, "default": 100 },
+      { "type": "range", "id": "section_padding",  "label": "Padding sections (px)",  "min": 40, "max": 160, "step": 8, "default": 80 },
+      { "type": "range", "id": "grid_gap",         "label": "Gouttière grille (px)",  "min": 12, "max": 48,  "step": 4, "default": 24 },
+      {
+        "type": "select",
+        "id": "button_style",
+        "label": "Style des boutons",
+        "default": "pill",
+        "options": [
+          { "value": "pill",   "label": "Pill (défaut)" },
+          { "value": "soft",   "label": "Soft" },
+          { "value": "square", "label": "Carré" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Effet couleur au clic",
+    "settings": [
+      {
+        "type": "range",
+        "id": "tint_intensity",
+        "label": "Intensité du color-tinting (%)",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 80
+      }
+    ]
+  },
+  {
+    "name": "Panier",
+    "settings": [
+      {
+        "type": "richtext",
+        "id": "cart_note",
+        "label": "Note panier (sous le total)"
+      }
+    ]
+  }
+]
