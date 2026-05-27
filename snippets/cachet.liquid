@@ -1,0 +1,38 @@
+{% comment %}
+  Cachet (postmark/stamp) SVG — Maison Mère theme
+  Usage: {% render 'cachet', label: 'MAISON MÈRE', center: '★', size: 110, color: 'var(--accent)' %}
+{% endcomment %}
+
+{%- assign cachet_size = size | default: 100 -%}
+{%- assign cachet_color = color | default: 'var(--accent)' -%}
+{%- assign cachet_label = label | default: 'MAISON MÈRE' -%}
+{%- assign cachet_center = center | default: '★' -%}
+{%- assign cachet_r1 = cachet_size | times: 0.45 | floor -%}
+{%- assign cachet_r2 = cachet_size | times: 0.39 | floor -%}
+{%- assign cachet_cx = cachet_size | divided_by: 2 -%}
+{%- assign cachet_cy = cachet_size | divided_by: 2 -%}
+{%- assign cachet_font = cachet_size | times: 0.13 | floor -%}
+{%- assign cachet_center_size = cachet_size | times: 0.28 | floor -%}
+{%- assign path_id = 'cp-' | append: cachet_label | replace: ' ', '-' | downcase -%}
+
+<svg class="m-cachet" viewBox="0 0 {{ cachet_size }} {{ cachet_size }}"
+     width="{{ cachet_size }}" height="{{ cachet_size }}"
+     aria-hidden="true"
+     style="{% if style %}{{ style }}{% endif %}">
+  <circle cx="{{ cachet_cx }}" cy="{{ cachet_cy }}" r="{{ cachet_r1 }}"
+          fill="none" stroke="{{ cachet_color }}" stroke-width="1"/>
+  <circle cx="{{ cachet_cx }}" cy="{{ cachet_cy }}" r="{{ cachet_r2 }}"
+          fill="none" stroke="{{ cachet_color }}" stroke-width="0.5" stroke-dasharray="2 2"/>
+  <defs>
+    <path id="{{ path_id }}"
+          d="M {{ cachet_cx }},{{ cachet_cy }} m -{{ cachet_r2 }},0 a {{ cachet_r2 }},{{ cachet_r2 }} 0 1,1 {{ cachet_r2 | times: 2 }},0 a {{ cachet_r2 }},{{ cachet_r2 }} 0 1,1 -{{ cachet_r2 | times: 2 }},0"/>
+  </defs>
+  <text font-size="{{ cachet_font }}" text-anchor="middle" fill="{{ cachet_color }}"
+        font-family="'JetBrains Mono', monospace" font-weight="700"
+        letter-spacing="{{ cachet_size | times: 0.04 | floor }}">
+    <textPath href="#{{ path_id }}" startOffset="50%">{{ cachet_label }}</textPath>
+  </text>
+  <text x="{{ cachet_cx }}" y="{{ cachet_cy | plus: cachet_center_size | times: 0.38 | floor }}"
+        font-size="{{ cachet_center_size }}" text-anchor="middle"
+        fill="{{ cachet_color }}" font-family="serif">{{ cachet_center }}</text>
+</svg>

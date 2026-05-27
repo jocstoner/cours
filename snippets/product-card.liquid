@@ -1,0 +1,92 @@
+{% comment %}
+  Product card — Maison Mère theme
+  Usage: {% render 'product-card', product: product, image_style: 'rounded' %}
+{% endcomment %}
+
+{%- assign card_color  = product.metafields.custom.tint_color.value | default: '#c46a2e' -%}
+{%- assign card_tint   = product.metafields.custom.tint_bg.value    | default: '#f0d4b8' -%}
+{%- assign card_gamme  = product.collections.first.title | default: product.type -%}
+{%- assign card_style  = image_style | default: 'rounded' -%}
+
+<article class="m-product-card"
+         data-gamme="{{ product.collections.first.handle | default: product.type | handleize }}"
+         data-tint-color="{{ card_color }}"
+         data-tint-bg="{{ card_tint }}"
+         data-tint-hover="true">
+  <a href="{{ product.url }}" data-tint-color="{{ card_color }}" data-tint-bg="{{ card_tint }}">
+
+    <div class="m-product-card__visual m-product-card__visual--{{ card_style }}"
+         style="background: {{ card_tint }}; box-shadow: inset 0 0 0 1px var(--rule);">
+
+      {%- if product.featured_image -%}
+        <img src="{{ product.featured_image | image_url: width: 600 }}"
+             alt="{{ product.featured_image.alt | default: product.title | escape }}"
+             width="600" height="800"
+             loading="lazy"
+             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      {%- else -%}
+        <!-- Pot stylisé SVG quand pas d'image produit -->
+        <svg viewBox="0 0 100 130" style="width:55%;opacity:0.85;" aria-hidden="true">
+          <rect x="20" y="0" width="60" height="12" rx="4"
+                fill="{{ card_color }}" opacity="0.8"/>
+          <rect x="14" y="12" width="72" height="85" rx="6"
+                fill="{{ card_tint }}"/>
+          <rect x="14" y="12" width="72" height="85" rx="6"
+                fill="none" stroke="{{ card_color }}" stroke-width="1.5"/>
+          <ellipse cx="50" cy="54" rx="22" ry="22"
+                   fill="{{ card_color }}" opacity="0.15"/>
+          <text x="50" y="100" text-anchor="middle"
+                font-family="'DM Serif Display', serif" font-size="9"
+                fill="{{ card_color }}">
+            {{ product.type | upcase | truncate: 8, '' }}
+          </text>
+        </svg>
+      {%- endif -%}
+
+      {%- if product.metafields.reviews.rating.value != blank -%}
+        <div style="position:absolute;top:14px;left:14px;">
+          {%- render 'cachet',
+              label: '★ BEST-SELLER ★',
+              center: '✿',
+              size: 72,
+              color: card_color -%}
+        </div>
+      {%- elsif product.tags contains 'best-seller' -%}
+        <div style="position:absolute;top:14px;left:14px;">
+          {%- render 'cachet',
+              label: '★ BEST-SELLER ★',
+              center: '✿',
+              size: 72,
+              color: card_color -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div style="margin-top:14px;">
+      <div class="m-product-card__gamme m-label" style="color: {{ card_color }};">
+        {{ card_gamme }}
+        {%- if product.variants.first.inventory_quantity <= 0 and product.variants.first.inventory_management != blank -%}
+          · <span style="color:var(--ink-mute);">Épuisé</span>
+        {%- endif -%}
+      </div>
+      <h3 class="m-product-card__name">{{ product.title }}</h3>
+      {%- if product.metafields.custom.subtitle != blank -%}
+        <div class="m-product-card__sub">{{ product.metafields.custom.subtitle.value }}</div>
+      {%- elsif product.description != blank -%}
+        <div class="m-product-card__sub">{{ product.description | strip_html | truncate: 60 }}</div>
+      {%- endif -%}
+      <div class="m-product-card__footer">
+        <span class="m-product-card__price">
+          {%- if product.price_varies -%}
+            À partir de {{ product.price_min | money }}
+          {%- else -%}
+            {{ product.price | money }}
+          {%- endif -%}
+        </span>
+        <button class="m-product-card__btn" aria-label="Voir {{ product.title }}">
+          Voir →
+        </button>
+      </div>
+    </div>
+  </a>
+</article>

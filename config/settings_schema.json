@@ -1,0 +1,206 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Maison Mère",
+    "theme_version": "1.0.0",
+    "theme_author": "Jodisseries",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Couleurs",
+    "settings": [
+      {
+        "type": "select",
+        "id": "palette",
+        "label": "Palette de couleurs",
+        "options": [
+          { "value": "terracotta", "label": "Terracotta (défaut)" },
+          { "value": "ocre",       "label": "Ocre du Lubéron" },
+          { "value": "garrigue",   "label": "Garrigue" },
+          { "value": "lavande",    "label": "Lavande" }
+        ],
+        "default": "terracotta",
+        "info": "Choisissez la palette générale du site"
+      },
+      {
+        "type": "color",
+        "id": "color_paper",
+        "label": "Fond principal (papier)",
+        "default": "#f5e9d4"
+      },
+      {
+        "type": "color",
+        "id": "color_cream",
+        "label": "Fond secondaire (crème)",
+        "default": "#efdfbe"
+      },
+      {
+        "type": "color",
+        "id": "color_ink",
+        "label": "Couleur d'encre (texte principal)",
+        "default": "#2e1a0c"
+      },
+      {
+        "type": "color",
+        "id": "color_ink_mute",
+        "label": "Texte secondaire",
+        "default": "#7a5436"
+      },
+      {
+        "type": "color",
+        "id": "color_rule",
+        "label": "Filets / bordures",
+        "default": "#d4b787"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Couleur d'accent (terracotta)",
+        "default": "#c46a2e"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_tint",
+        "label": "Teinte d'accent (fond coloré)",
+        "default": "#f0d4b8"
+      },
+      {
+        "type": "checkbox",
+        "id": "dark_mode",
+        "label": "Mode sombre (Soir d'hiver)",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Typographie",
+    "settings": [
+      {
+        "type": "select",
+        "id": "font_display",
+        "label": "Police d'affichage (titres)",
+        "options": [
+          { "value": "dm-serif",    "label": "DM Serif Display (Provence)" },
+          { "value": "fraunces",    "label": "Fraunces (littéraire)" },
+          { "value": "newsreader",  "label": "Newsreader (journalistique)" },
+          { "value": "caslon",      "label": "Libre Caslon (classique)" }
+        ],
+        "default": "dm-serif"
+      },
+      {
+        "type": "select",
+        "id": "font_body",
+        "label": "Police de corps (texte)",
+        "options": [
+          { "value": "spectral",  "label": "Spectral (sérif web)" },
+          { "value": "inter",     "label": "Inter (sans-serif)" },
+          { "value": "newsreader","label": "Newsreader (sérif texte)" }
+        ],
+        "default": "spectral"
+      }
+    ]
+  },
+  {
+    "name": "Mise en page",
+    "settings": [
+      {
+        "type": "select",
+        "id": "layout_density",
+        "label": "Densité de l'espacement",
+        "options": [
+          { "value": "compact",     "label": "Compact" },
+          { "value": "comfortable", "label": "Confortable" },
+          { "value": "airy",        "label": "Aéré" },
+          { "value": "showcase",    "label": "Vitrine" }
+        ],
+        "default": "comfortable"
+      },
+      {
+        "type": "range",
+        "id": "layout_padding",
+        "label": "Marges latérales (px)",
+        "min": 20,
+        "max": 120,
+        "step": 4,
+        "default": 60
+      },
+      {
+        "type": "range",
+        "id": "hero_padding",
+        "label": "Hauteur du hero (px)",
+        "min": 40,
+        "max": 200,
+        "step": 10,
+        "default": 90
+      },
+      {
+        "type": "range",
+        "id": "section_padding",
+        "label": "Espacement des sections (px)",
+        "min": 40,
+        "max": 200,
+        "step": 10,
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "grid_gap",
+        "label": "Espacement de la grille (px)",
+        "min": 8,
+        "max": 60,
+        "step": 4,
+        "default": 28
+      },
+      {
+        "type": "select",
+        "id": "button_style",
+        "label": "Style des boutons",
+        "options": [
+          { "value": "square", "label": "Carré" },
+          { "value": "soft",   "label": "Arrondi doux" },
+          { "value": "pill",   "label": "Pilule" }
+        ],
+        "default": "square"
+      }
+    ]
+  },
+  {
+    "name": "Effet couleur au clic",
+    "settings": [
+      {
+        "type": "range",
+        "id": "tint_intensity",
+        "label": "Intensité du tinting produit",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "default": 70,
+        "info": "0% = pas d'effet · 100% = changement de couleur maximal au clic sur un produit"
+      }
+    ]
+  },
+  {
+    "name": "Texture & effets",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_paper_texture",
+        "label": "Texture papier (fond)",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Panier",
+    "settings": [
+      {
+        "type": "text",
+        "id": "cart_note",
+        "label": "Note panier (livraison / info)",
+        "default": "★ Un mot manuscrit dans chaque colis · Port offert dès 50 €"
+      }
+    ]
+  }
+]

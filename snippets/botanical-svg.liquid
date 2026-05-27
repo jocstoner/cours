@@ -1,0 +1,104 @@
+{% comment %}
+  Botanical SVG illustrations — Maison Mère theme
+  Usage: {% render 'botanical-svg', type: 'thym', color: '#c46a2e', width: '60%', height: '160px' %}
+  Types: thym, lavande, fleur, abeille
+{% endcomment %}
+
+{%- assign svg_color = color | default: '#c46a2e' -%}
+{%- assign svg_width = width | default: '60%' -%}
+{%- assign svg_height = height | default: '160px' -%}
+{%- assign svg_opacity = opacity | default: '1' -%}
+
+{%- case type -%}
+
+{%- when 'thym' -%}
+<svg viewBox="0 0 100 240" preserveAspectRatio="xMidYMid meet"
+     style="width:{{ svg_width }};height:{{ svg_height }};opacity:{{ svg_opacity }};"
+     aria-hidden="true">
+  <path d="M50 240 V20" stroke="{{ svg_color }}" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <g stroke="{{ svg_color }}" stroke-width="0.8" fill="none">
+    <path d="M50 60 q15 -8 25 -2"/>
+    <path d="M50 80 q-15 -8 -25 -2"/>
+    <path d="M50 100 q18 -10 28 -2"/>
+    <path d="M50 120 q-18 -10 -28 -2"/>
+    <path d="M50 140 q20 -12 30 -2"/>
+    <path d="M50 160 q-20 -12 -30 -2"/>
+    <path d="M50 180 q22 -12 32 -2"/>
+    <path d="M50 200 q-22 -12 -32 -2"/>
+  </g>
+  <circle cx="50" cy="22" r="4" fill="{{ svg_color }}" fill-opacity="0.3"/>
+  <circle cx="50" cy="22" r="2" fill="{{ svg_color }}"/>
+</svg>
+
+{%- when 'lavande' -%}
+<svg viewBox="0 0 80 280" preserveAspectRatio="xMidYMid meet"
+     style="width:{{ svg_width }};height:{{ svg_height }};opacity:{{ svg_opacity }};"
+     aria-hidden="true">
+  <path d="M40 280 V120" stroke="{{ svg_color }}" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <g fill="{{ svg_color }}" stroke="none">
+    <ellipse cx="40" cy="115" rx="4" ry="6" fill-opacity="0.9"/>
+    <ellipse cx="40" cy="103" rx="4" ry="6" fill-opacity="0.85"/>
+    <ellipse cx="40" cy="91"  rx="3.5" ry="5.5" fill-opacity="0.8"/>
+    <ellipse cx="40" cy="79"  rx="3.5" ry="5.5" fill-opacity="0.75"/>
+    <ellipse cx="40" cy="67"  rx="3" ry="5" fill-opacity="0.7"/>
+    <ellipse cx="40" cy="57"  rx="2.5" ry="4.5" fill-opacity="0.65"/>
+    <ellipse cx="40" cy="47"  rx="2" ry="4" fill-opacity="0.6"/>
+  </g>
+  <!-- Feuilles de lavande -->
+  <path d="M40 180 q10 -5 16 -2" stroke="{{ svg_color }}" stroke-width="0.8" fill="none"/>
+  <path d="M40 180 q-10 -5 -16 -2" stroke="{{ svg_color }}" stroke-width="0.8" fill="none"/>
+  <path d="M40 200 q10 -5 14 -2" stroke="{{ svg_color }}" stroke-width="0.8" fill="none"/>
+  <path d="M40 200 q-10 -5 -14 -2" stroke="{{ svg_color }}" stroke-width="0.8" fill="none"/>
+</svg>
+
+{%- when 'fleur' -%}
+<svg viewBox="0 0 120 200" preserveAspectRatio="xMidYMid meet"
+     style="width:{{ svg_width }};height:{{ svg_height }};opacity:{{ svg_opacity }};"
+     aria-hidden="true">
+  <!-- Tige -->
+  <path d="M60 200 V90" stroke="{{ svg_color }}" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <!-- Pétales -->
+  <g fill="{{ svg_color }}" fill-opacity="0.7">
+    <ellipse cx="60" cy="60" rx="8" ry="28" transform="rotate(0,60,90)"/>
+    <ellipse cx="60" cy="60" rx="8" ry="28" transform="rotate(60,60,90)"/>
+    <ellipse cx="60" cy="60" rx="8" ry="28" transform="rotate(120,60,90)"/>
+    <ellipse cx="60" cy="60" rx="8" ry="28" transform="rotate(180,60,90)"/>
+    <ellipse cx="60" cy="60" rx="8" ry="28" transform="rotate(240,60,90)"/>
+    <ellipse cx="60" cy="60" rx="8" ry="28" transform="rotate(300,60,90)"/>
+  </g>
+  <!-- Centre -->
+  <circle cx="60" cy="90" r="10" fill="{{ svg_color }}"/>
+  <circle cx="60" cy="90" r="5" fill="{{ svg_color }}" fill-opacity="0.4"/>
+  <!-- Feuilles -->
+  <path d="M60 160 q15 -10 20 -5" stroke="{{ svg_color }}" stroke-width="1" fill="none"/>
+  <path d="M60 160 q-15 -10 -20 -5" stroke="{{ svg_color }}" stroke-width="1" fill="none"/>
+</svg>
+
+{%- when 'abeille' -%}
+<svg viewBox="0 0 120 100" preserveAspectRatio="xMidYMid meet"
+     style="width:{{ svg_width }};height:{{ svg_height }};opacity:{{ svg_opacity }};"
+     aria-hidden="true">
+  <!-- Corps -->
+  <ellipse cx="60" cy="60" rx="18" ry="28" fill="{{ svg_color }}"/>
+  <!-- Rayures -->
+  <rect x="42" y="50" width="36" height="5" fill="var(--ink)" fill-opacity="0.3" rx="2"/>
+  <rect x="42" y="60" width="36" height="5" fill="var(--ink)" fill-opacity="0.3" rx="2"/>
+  <rect x="42" y="70" width="36" height="5" fill="var(--ink)" fill-opacity="0.3" rx="2"/>
+  <!-- Tête -->
+  <circle cx="60" cy="28" r="12" fill="{{ svg_color }}"/>
+  <!-- Antennes -->
+  <path d="M56 17 Q48 4 42 2" stroke="{{ svg_color }}" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <path d="M64 17 Q72 4 78 2" stroke="{{ svg_color }}" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <circle cx="42" cy="2" r="2" fill="{{ svg_color }}"/>
+  <circle cx="78" cy="2" r="2" fill="{{ svg_color }}"/>
+  <!-- Ailes -->
+  <ellipse cx="35" cy="45" rx="20" ry="10" fill="{{ svg_color }}" fill-opacity="0.3" transform="rotate(-15,35,45)"/>
+  <ellipse cx="85" cy="45" rx="20" ry="10" fill="{{ svg_color }}" fill-opacity="0.3" transform="rotate(15,85,45)"/>
+  <ellipse cx="30" cy="55" rx="16" ry="8" fill="{{ svg_color }}" fill-opacity="0.25" transform="rotate(-10,30,55)"/>
+  <ellipse cx="90" cy="55" rx="16" ry="8" fill="{{ svg_color }}" fill-opacity="0.25" transform="rotate(10,90,55)"/>
+</svg>
+
+{%- else -%}
+  {%- render 'botanical-svg', type: 'thym', color: svg_color, width: svg_width, height: svg_height -%}
+
+{%- endcase -%}

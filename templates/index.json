@@ -1,0 +1,107 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "hero_layout": "postcard",
+        "tagline": "★ Récolte XII · Printemps 2026",
+        "cta_label": "Découvrir le comptoir",
+        "cta2_label": "Lire l'histoire"
+      }
+    },
+    "gammes": {
+      "type": "collections-grid",
+      "settings": {
+        "label": "Au comptoir",
+        "title": "<p>Cinq familles, <em>une cuisine</em>,<br>et trente recettes.</p>"
+      },
+      "blocks": {
+        "gamme-1": {
+          "type": "collection_card",
+          "settings": {
+            "name": "Miels",
+            "tag": "Récoltés à la cuillère",
+            "description": "On parle aux abeilles. Elles travaillent. On embouteille.",
+            "color": "#d97a2a",
+            "tint_bg": "#f5d4ad",
+            "botanical_type": "thym"
+          }
+        },
+        "gamme-2": {
+          "type": "collection_card",
+          "settings": {
+            "name": "Biscuits",
+            "tag": "Au four à bois",
+            "description": "Beurre, farine, plante du jardin. Trois ingrédients, mille bonheurs.",
+            "color": "#9c4f24",
+            "tint_bg": "#e6c5a8",
+            "botanical_type": "fleur"
+          }
+        },
+        "gamme-3": {
+          "type": "collection_card",
+          "settings": {
+            "name": "Infusions",
+            "tag": "Séchées à l'ombre",
+            "description": "Des plantes entières, cueillies au juste moment, séchées sous les poutres.",
+            "color": "#5d7345",
+            "tint_bg": "#c8d4b0",
+            "botanical_type": "lavande"
+          }
+        },
+        "gamme-4": {
+          "type": "collection_card",
+          "settings": {
+            "name": "Huiles & Macérats",
+            "tag": "Macération solaire",
+            "description": "On laisse les plantes infuser six semaines au soleil. On filtre. On met en flacon.",
+            "color": "#7a5a24",
+            "tint_bg": "#dcc794",
+            "botanical_type": "thym"
+          }
+        },
+        "gamme-5": {
+          "type": "collection_card",
+          "settings": {
+            "name": "Beurres Clarifiés",
+            "tag": "Sur feu doux",
+            "description": "Beurre AOP, feu doux, patience. Le ghee comme on le faisait avant.",
+            "color": "#b88234",
+            "tint_bg": "#ebd5a8",
+            "botanical_type": "abeille"
+          }
+        }
+      },
+      "block_order": ["gamme-1", "gamme-2", "gamme-3", "gamme-4", "gamme-5"]
+    },
+    "manifesto": {
+      "type": "manifesto",
+      "settings": {
+        "label": "Notre histoire en deux mots",
+        "title": "<p>On a fondé cette maison parce qu'on en avait <em>assez</em> de choisir entre <em>efficace</em> et <em>délicieux.</em></p>",
+        "text": "Tout est cuisiné dans notre atelier d'Avignon — petits lots, beurre AOP, plantes du jardin, miels d'apiculteurs voisins. La règle qu'on s'est donnée : si on n'en mangerait pas chez nous, on ne le vend pas.",
+        "cta_label": "Lire notre histoire"
+      }
+    },
+    "featured-products": {
+      "type": "featured-products",
+      "settings": {
+        "label": "★ Les chouchous",
+        "title": "<p>Ceux qu'on recommande <em>les yeux fermés.</em></p>",
+        "products_count": 4,
+        "image_style": "rounded",
+        "cta_label": "Voir tout le comptoir"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "label": "✉ Lettre d'apothicaire",
+        "title": "<p>Une lettre, <em>par saison.</em></p>",
+        "description": "Recettes, plantes de saison, et les coulisses de l'atelier. Pas de pub, promis.",
+        "button_label": "M'inscrire"
+      }
+    }
+  },
+  "order": ["hero", "gammes", "manifesto", "featured-products", "newsletter"]
+}

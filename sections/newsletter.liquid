@@ -1,0 +1,89 @@
+<!-- SECTION: Newsletter — Maison Mère (style carte postale) -->
+
+<section class="m-newsletter-section">
+  <div class="m-newsletter-card">
+    <!-- Cachet poste -->
+    <div style="position:absolute;top:16px;left:16px;opacity:0.7;">
+      {%- render 'cachet',
+          label: section.settings.stamp_label | default: 'POSTE · AVIGNON',
+          center: '▲',
+          size: 80 -%}
+    </div>
+
+    <div class="m-label">{{ section.settings.label | default: '✉ Lettre d\'apothicaire' }}</div>
+    <h2 class="m-newsletter-card__title">
+      {{ section.settings.title | default: 'Une lettre, <em>par saison.</em>' }}
+    </h2>
+    <p class="m-newsletter-card__desc">
+      {{ section.settings.description | default: 'Recettes, plantes de saison, et les coulisses de l\'atelier. Pas de pub, promis.' }}
+    </p>
+
+    {%- form 'customer', id: 'newsletter-form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="m-newsletter-form">
+        <input class="m-newsletter-input"
+               type="email"
+               name="contact[email]"
+               id="newsletter-email"
+               placeholder="{{ section.settings.placeholder | default: 'votre adresse' }}"
+               required
+               autocomplete="email"
+               aria-label="Adresse e-mail">
+        <button type="submit" class="m-btn-primary">
+          {{ section.settings.button_label | default: 'M\'inscrire' }}
+        </button>
+      </div>
+
+      {%- if form.posted_successfully? -%}
+        <p style="margin-top:16px;font:italic 400 16px/1.5 var(--display);color:var(--accent);">
+          ★ Merci ! Vous recevrez notre prochaine lettre.
+        </p>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Étiquette",
+      "default": "✉ Lettre d'apothicaire"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Titre",
+      "default": "<p>Une lettre, <em>par saison.</em></p>"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Recettes, plantes de saison, et les coulisses de l'atelier. Pas de pub, promis."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder e-mail",
+      "default": "votre adresse"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texte du bouton",
+      "default": "M'inscrire"
+    },
+    {
+      "type": "text",
+      "id": "stamp_label",
+      "label": "Texte du tampon",
+      "default": "POSTE · AVIGNON"
+    }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

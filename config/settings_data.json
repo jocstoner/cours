@@ -1,0 +1,24 @@
+{
+  "current": {
+    "palette": "terracotta",
+    "color_paper": "#f5e9d4",
+    "color_cream": "#efdfbe",
+    "color_ink": "#2e1a0c",
+    "color_ink_mute": "#7a5436",
+    "color_rule": "#d4b787",
+    "color_accent": "#c46a2e",
+    "color_accent_tint": "#f0d4b8",
+    "dark_mode": false,
+    "font_display": "dm-serif",
+    "font_body": "spectral",
+    "layout_density": "comfortable",
+    "layout_padding": 60,
+    "hero_padding": 90,
+    "section_padding": 100,
+    "grid_gap": 28,
+    "button_style": "square",
+    "tint_intensity": 70,
+    "show_paper_texture": true,
+    "cart_note": "★ Un mot manuscrit dans chaque colis · Port offert dès 50 €"
+  }
+}
