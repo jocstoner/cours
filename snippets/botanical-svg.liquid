@@ -99,6 +99,17 @@
 </svg>
 
 {%- else -%}
-  {%- render 'botanical-svg', type: 'thym', color: svg_color, width: svg_width, height: svg_height -%}
+<svg viewBox="0 0 100 240" preserveAspectRatio="xMidYMid meet"
+     style="width:{{ svg_width }};height:{{ svg_height }};opacity:{{ svg_opacity }};"
+     aria-hidden="true">
+  <path d="M50 240 V20" stroke="{{ svg_color }}" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <g stroke="{{ svg_color }}" stroke-width="0.8" fill="none">
+    <path d="M50 60 q15 -8 25 -2"/><path d="M50 80 q-15 -8 -25 -2"/>
+    <path d="M50 100 q18 -10 28 -2"/><path d="M50 120 q-18 -10 -28 -2"/>
+    <path d="M50 140 q20 -12 30 -2"/><path d="M50 160 q-20 -12 -30 -2"/>
+  </g>
+  <circle cx="50" cy="22" r="4" fill="{{ svg_color }}" fill-opacity="0.3"/>
+  <circle cx="50" cy="22" r="2" fill="{{ svg_color }}"/>
+</svg>
 
 {%- endcase -%}

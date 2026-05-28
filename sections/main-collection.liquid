@@ -37,7 +37,7 @@
 
   <!-- Filtres par gamme -->
   <div class="m-collection-filters">
-    <button class="m-chip {% if current_tags == blank %}is-active{% endif %}"
+    <button class="m-chip {% if current_tags.size == 0 %}is-active{% endif %}"
             data-filter="all"
             onclick="location.href='{{ collection.url }}'">
       Tout

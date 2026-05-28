@@ -30,12 +30,23 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
   <!-- CSS -->
   {{ 'theme.css' | asset_url | stylesheet_tag }}
 
   <!-- Theme settings via CSS vars -->
+  {%- case settings.font_display -%}
+    {%- when 'fraunces'   -%}{%- assign display_stack = "'Fraunces',Georgia,serif" -%}
+    {%- when 'newsreader' -%}{%- assign display_stack = "'Newsreader',Georgia,serif" -%}
+    {%- when 'caslon'     -%}{%- assign display_stack = "'Libre Caslon Text',Georgia,serif" -%}
+    {%- else              -%}{%- assign display_stack = "'DM Serif Display','DM Serif Text',Georgia,serif" -%}
+  {%- endcase -%}
+  {%- case settings.font_body -%}
+    {%- when 'inter'      -%}{%- assign body_stack = "'Inter',system-ui,sans-serif" -%}
+    {%- when 'newsreader' -%}{%- assign body_stack = "'Newsreader',Georgia,serif" -%}
+    {%- else              -%}{%- assign body_stack = "'Spectral',Georgia,serif" -%}
+  {%- endcase -%}
   <style>
     :root {
       --paper:       {{ settings.color_paper }};
@@ -50,6 +61,8 @@
       --section-y:   {{ settings.section_padding }}px;
       --gap-x:       {{ settings.grid_gap }}px;
       --btn-radius:  {%- if settings.button_style == 'pill' -%}999px{%- elsif settings.button_style == 'soft' -%}10px{%- else -%}0px{%- endif -%};
+      --display:     {{ display_stack }};
+      --body:        {{ body_stack }};
     }
 
     {%- if settings.dark_mode -%}
@@ -92,7 +105,7 @@
   <div class="m-cart-drawer" role="dialog" aria-modal="true" aria-label="Votre panier">
     <div class="m-cart-drawer__header">
       <h2 class="m-cart-drawer__title">
-        Le panier <span class="m-label" style="font-size:10px; margin-left:10px;">★ {{ cart.item_count }} article{{ cart.item_count | plural: '', 's' }}</span>
+        Le panier <span class="m-label" style="font-size:10px; margin-left:10px;">★ {{ cart.item_count }} article{%- if cart.item_count != 1 -%}s{%- endif -%}</span>
       </h2>
       <button class="m-btn-icon" data-close-cart aria-label="Fermer le panier">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

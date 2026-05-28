@@ -1,0 +1,97 @@
+<!-- SECTION: Main Page — Maison Mère -->
+
+<section style="padding:var(--section-y) var(--page-x);max-width:860px;margin:0 auto;">
+
+  <!-- Breadcrumb -->
+  <nav class="m-breadcrumb" aria-label="Fil d'Ariane" style="margin-bottom:40px;">
+    <a href="{{ routes.root_url }}">Accueil</a>
+    <span class="m-breadcrumb__sep">→</span>
+    <span class="m-breadcrumb__current">{{ page.title }}</span>
+  </nav>
+
+  <!-- En-tête -->
+  <header style="border-bottom:1px dashed var(--rule);padding-bottom:40px;margin-bottom:48px;position:relative;">
+    <div style="position:absolute;right:-60px;top:0;opacity:0.15;pointer-events:none;">
+      {%- render 'botanical-svg', type: 'lavande', color: 'var(--accent)', width: '120px', height: '240px' -%}
+    </div>
+    <div class="m-label" style="margin-bottom:16px;">✿ {{ page.title }}</div>
+    <h1 style="font:normal 500 clamp(42px,5vw,80px)/1 var(--display);letter-spacing:-0.02em;">
+      <em>{{ page.title }}</em>
+    </h1>
+    {%- if section.settings.show_date -%}
+      <p style="margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);">
+        Mis à jour le {{ page.updated_at | date: '%d %B %Y' }}
+      </p>
+    {%- endif -%}
+  </header>
+
+  <!-- Contenu -->
+  <div class="m-page-content rte">
+    {{ page.content }}
+  </div>
+
+</section>
+
+<style>
+  .m-page-content h2 {
+    font: normal 500 clamp(28px,3vw,48px)/1.1 var(--display);
+    letter-spacing: -0.02em;
+    margin: 52px 0 20px;
+    color: var(--ink);
+  }
+  .m-page-content h3 {
+    font: italic 500 clamp(20px,2.5vw,32px)/1.2 var(--display);
+    margin: 36px 0 14px;
+    color: var(--accent);
+  }
+  .m-page-content p {
+    font: 400 18px/1.75 var(--body);
+    color: var(--ink);
+    margin-bottom: 20px;
+    max-width: 68ch;
+  }
+  .m-page-content ul,
+  .m-page-content ol {
+    padding-left: 24px;
+    margin-bottom: 20px;
+  }
+  .m-page-content li {
+    font: 400 17px/1.7 var(--body);
+    margin-bottom: 8px;
+  }
+  .m-page-content a {
+    color: var(--accent);
+    border-bottom: 1px solid currentColor;
+  }
+  .m-page-content blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 16px 24px;
+    margin: 32px 0;
+    background: var(--accent-tint);
+    font: italic 400 19px/1.6 var(--display);
+  }
+  .m-page-content img {
+    width: 100%;
+    height: auto;
+    margin: 32px 0;
+  }
+  .m-page-content hr {
+    border: 0;
+    border-top: 1px dashed var(--rule);
+    margin: 48px 0;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Page principale",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Afficher la date de mise à jour",
+      "default": false
+    }
+  ]
+}
+{% endschema %}
