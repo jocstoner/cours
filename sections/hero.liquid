@@ -54,7 +54,7 @@
           <div class="m-label">★ Best-seller</div>
           <h3 style="font:normal 500 24px/1.1 var(--display);margin:10px 0 0;">{{ feat_prod.title }}</h3>
           <div style="font:italic 400 14px/1.3 var(--display);color:var(--ink-mute);margin-top:4px;">
-            {{ feat_prod.variants.first.title != 'Default Title' ? feat_prod.variants.first.title : '' }} · {{ feat_prod.price | money }}
+            {%- unless feat_prod.has_only_default_variant -%}{{ feat_prod.variants.first.title }} · {%- endunless -%}{{ feat_prod.price | money }}
           </div>
         </div>
       {%- else -%}
