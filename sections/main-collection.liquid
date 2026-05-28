@@ -19,7 +19,7 @@
 
   <div style="position:relative;">
     <div class="m-label">
-      Au comptoir · {{ collection.products_count }} pot{{ collection.products_count | plural: '', 's' }}
+      Au comptoir · {{ collection.products_count }} pot{%- if collection.products_count != 1 -%}s{%- endif -%}
     </div>
     <h1 class="m-collection-header__title">
       {%- if collection.handle == 'all' -%}
