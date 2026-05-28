@@ -87,7 +87,7 @@
       <h2 class="g-cart-drawer__title">
         Ton panier 🛒
         <span class="g-label" style="font-size:10px;margin-left:10px;opacity:0.6;">
-          {{ cart.item_count }} article{{ cart.item_count | plural: '', 's' }}
+          {{ cart.item_count }} article{%- if cart.item_count != 1 -%}s{%- endif -%}
         </span>
       </h2>
       <button class="g-btn-icon" data-close-cart aria-label="Fermer">

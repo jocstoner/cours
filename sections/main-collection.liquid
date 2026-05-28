@@ -8,7 +8,7 @@
   <div class="g-collection-header__inner">
     <div>
       <span class="g-pill" style="background:var(--ink);color:var(--bg);">
-        {{ collection.products_count }} produit{{ collection.products_count | plural: '', 's' }}
+        {{ collection.products_count }} produit{%- if collection.products_count != 1 -%}s{%- endif -%}
       </span>
       <h1 class="g-collection-header__title">
         {%- if collection.handle == 'all' -%}

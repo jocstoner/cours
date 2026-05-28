@@ -1,0 +1,66 @@
+<!-- SECTION: 404 — Goûtu theme -->
+
+<section style="padding:calc(var(--hero-y) * 1.2) var(--page-x);text-align:center;min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;">
+
+  <span class="g-pill" style="background:var(--accent);font-size:13px;">404</span>
+
+  <h1 style="font:900 clamp(72px,12vw,160px)/0.88 var(--display);letter-spacing:-0.05em;margin:0;">
+    {{ section.settings.title | default: 'Perdu<br>en cuisine ?' }}
+  </h1>
+
+  <p style="font:500 20px/1.6 var(--body);color:var(--ink-mute);max-width:480px;margin:0;">
+    {{ section.settings.text | default: "Cette page n'existe pas (ou plus). Mais nos produits, eux, sont bien là." }}
+  </p>
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+    <a href="{{ routes.root_url }}" class="g-btn-primary">
+      ← Retour à la boutique
+    </a>
+    <a href="{{ routes.all_products_collection_url }}" class="g-btn-ghost">
+      Voir tous les produits
+    </a>
+  </div>
+
+  {%- if section.settings.show_search -%}
+    <form action="{{ routes.search_url }}" method="get" style="display:flex;gap:10px;margin-top:8px;">
+      <input type="search" name="q"
+             placeholder="{{ section.settings.search_placeholder | default: 'Rechercher un produit…' }}"
+             style="padding:14px 20px;border:2.5px solid var(--ink);border-radius:999px;font:700 15px/1 var(--body);background:var(--bg);color:var(--ink);min-width:260px;outline:none;">
+      <button type="submit" class="g-btn-primary">Chercher →</button>
+    </form>
+  {%- endif -%}
+
+</section>
+
+{% schema %}
+{
+  "name": "Page 404",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Perdu en cuisine ?"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texte",
+      "default": "Cette page n'existe pas (ou plus). Mais nos produits, eux, sont bien là."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Afficher le champ recherche",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Placeholder recherche",
+      "default": "Rechercher un produit…"
+    }
+  ],
+  "presets": [{ "name": "Page 404" }]
+}
+{% endschema %}
