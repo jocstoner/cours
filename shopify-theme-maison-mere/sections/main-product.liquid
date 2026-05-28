@@ -41,7 +41,7 @@
              alt="{{ product.featured_media.alt | default: product.title | escape }}"
              width="800" height="1000"
              loading="eager"
-             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"
+             style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:20px;"
              id="product-featured-img">
       {%- else -%}
         <!-- Pot SVG par défaut si pas d'image -->
@@ -91,7 +91,7 @@
   <!-- Colonne infos -->
   <div>
     <div class="m-product-gamme-tag" style="color:{{ tint_color }};">
-      {{ product_gamme }} · {{ product.variants.first.title | unless: 'Default Title' }}
+      {{ product_gamme }}{%- unless product.has_only_default_variant %} · {{ product.variants.first.title }}{%- endunless -%}
     </div>
 
     <h1 class="m-product-title">{{ product.title }}</h1>
@@ -196,6 +196,48 @@
         </div>
       </div>
     {%- endform -%}
+
+    {%- unless product.has_only_default_variant -%}
+    <script>
+      (function() {
+        var variants = {{ product.variants | json }};
+        var form     = document.getElementById('product-form');
+        if (!form) return;
+        var selects  = form.querySelectorAll('select[name^="options["]');
+        var idInput  = form.querySelector('input[name="id"]');
+        var priceEl  = form.querySelector('.m-buy-box__price');
+        var submitBtn = form.querySelector('[type="submit"]');
+
+        function findVariant() {
+          var opts = Array.from(selects).map(function(s) { return s.value; });
+          return variants.find(function(v) {
+            return v.options.every(function(o, i) { return o === opts[i]; });
+          });
+        }
+
+        function updateForm() {
+          var v = findVariant();
+          if (!v) return;
+          idInput.value = v.id;
+          if (priceEl) priceEl.textContent = (v.price / 100).toFixed(2).replace('.', ',') + ' €';
+          if (submitBtn) {
+            submitBtn.disabled = !v.available;
+            if (v.available) {
+              submitBtn.innerHTML = 'Ajouter au panier <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+            } else {
+              submitBtn.textContent = 'Épuisé';
+            }
+          }
+          if (v.featured_image) {
+            var img = document.getElementById('product-featured-img');
+            if (img) img.src = v.featured_image.src;
+          }
+        }
+
+        selects.forEach(function(s) { s.addEventListener('change', updateForm); });
+      })();
+    </script>
+    {%- endunless -%}
 
     <!-- Onglets descriptifs -->
     <div class="m-tabs">

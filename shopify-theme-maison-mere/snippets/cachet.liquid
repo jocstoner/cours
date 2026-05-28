@@ -13,6 +13,7 @@
 {%- assign cachet_cy = cachet_size | divided_by: 2 -%}
 {%- assign cachet_font = cachet_size | times: 0.13 | floor -%}
 {%- assign cachet_center_size = cachet_size | times: 0.28 | floor -%}
+{%- assign cachet_center_offset = cachet_center_size | times: 0.35 | round -%}
 {%- assign path_id = 'cp-' | append: cachet_label | replace: ' ', '-' | downcase -%}
 
 <svg class="m-cachet" viewBox="0 0 {{ cachet_size }} {{ cachet_size }}"
@@ -32,7 +33,7 @@
         letter-spacing="{{ cachet_size | times: 0.04 | floor }}">
     <textPath href="#{{ path_id }}" startOffset="50%">{{ cachet_label }}</textPath>
   </text>
-  <text x="{{ cachet_cx }}" y="{{ cachet_cy | plus: cachet_center_size | times: 0.38 | floor }}"
+  <text x="{{ cachet_cx }}" y="{{ cachet_cy | plus: cachet_center_offset }}"
         font-size="{{ cachet_center_size }}" text-anchor="middle"
         fill="{{ cachet_color }}" font-family="serif">{{ cachet_center }}</text>
 </svg>
