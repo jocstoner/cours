@@ -1,0 +1,50 @@
+<!-- SECTION: 404 — Maison Mère -->
+
+<section style="padding:var(--section-y) var(--page-x);min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;">
+  <div style="position:relative;max-width:560px;">
+
+    <!-- Illustration -->
+    <div style="opacity:0.18;margin-bottom:32px;">
+      {%- render 'botanical-svg', type: 'fleur', color: 'var(--accent)', width: '120px', height: '160px' -%}
+    </div>
+
+    <div class="m-label" style="margin-bottom:20px;">✿ Erreur 404</div>
+
+    <h1 style="font:normal 500 clamp(52px,8vw,120px)/0.95 var(--display);letter-spacing:-0.03em;margin-bottom:24px;">
+      Cette page<br><em>n'existe pas.</em>
+    </h1>
+
+    <p style="font:400 18px/1.65 var(--body);color:var(--ink-mute);margin-bottom:36px;">
+      Elle a peut-être déménagé, ou cette adresse n'a jamais existé.
+      Voici quelques pistes pour retrouver votre chemin.
+    </p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+      <a href="{{ routes.root_url }}" class="m-btn-primary">
+        ← Retour à l'accueil
+      </a>
+      <a href="{{ routes.all_products_collection_url }}" class="m-btn-ghost">
+        Voir tous les produits
+      </a>
+    </div>
+
+    <!-- Recherche -->
+    <form action="{{ routes.search_url }}" method="get"
+          style="margin-top:40px;display:flex;gap:0;max-width:400px;margin-left:auto;margin-right:auto;">
+      <input type="search" name="q" placeholder="Chercher dans le comptoir…"
+             style="flex:1;padding:14px 18px;border:1px solid var(--ink);border-right:0;background:transparent;font:400 15px/1 var(--body);color:var(--ink);outline:none;"
+             aria-label="Recherche">
+      <button type="submit"
+              style="padding:14px 20px;background:var(--ink);color:var(--paper);border:0;cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.1em;">
+        →
+      </button>
+    </form>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page 404"
+}
+{% endschema %}
