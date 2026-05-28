@@ -20,47 +20,5 @@
     "tint_intensity": 70,
     "show_paper_texture": true,
     "cart_note": "★ Un mot manuscrit dans chaque colis · Port offert dès 50 €"
-  },
-  "presets": {
-    "Terracotta (défaut)": {
-      "palette": "terracotta",
-      "color_paper": "#f5e9d4",
-      "color_cream": "#efdfbe",
-      "color_ink": "#2e1a0c",
-      "color_ink_mute": "#7a5436",
-      "color_rule": "#d4b787",
-      "color_accent": "#c46a2e",
-      "color_accent_tint": "#f0d4b8"
-    },
-    "Ocre du Lubéron": {
-      "palette": "ocre",
-      "color_paper": "#f7edd8",
-      "color_cream": "#f0deb6",
-      "color_ink": "#2c1a08",
-      "color_ink_mute": "#8a6030",
-      "color_rule": "#d8c080",
-      "color_accent": "#d4882a",
-      "color_accent_tint": "#f5dfa8"
-    },
-    "Garrigue": {
-      "palette": "garrigue",
-      "color_paper": "#eef0e8",
-      "color_cream": "#dde2d0",
-      "color_ink": "#1e2818",
-      "color_ink_mute": "#5a6a48",
-      "color_rule": "#b0bc98",
-      "color_accent": "#5d7345",
-      "color_accent_tint": "#c8d4b0"
-    },
-    "Lavande": {
-      "palette": "lavande",
-      "color_paper": "#f0eef8",
-      "color_cream": "#e2ddf0",
-      "color_ink": "#1e1830",
-      "color_ink_mute": "#60547a",
-      "color_rule": "#b8b0d8",
-      "color_accent": "#6b5fa8",
-      "color_accent_tint": "#d0caea"
-    }
   }
 }
