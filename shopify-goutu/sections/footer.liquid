@@ -62,7 +62,7 @@
   </div>
 
   <div class="g-footer__bottom">
-    <p>© {{ 'now' | date: '%Y' }} {{ shop.name }}. Tous droits réservés.</p>
+    <p>© {{ "now" | date: '%Y' }} {{ shop.name }}. Tous droits réservés.</p>
     {%- if section.settings.bottom_menu != blank -%}
       <ul class="g-footer__bottom-links">
         {%- for link in linklists[section.settings.bottom_menu].links -%}

@@ -44,14 +44,15 @@
                   fill="{{ card_tint }}" stroke="{{ card_color }}" stroke-width="2.5" stroke-linejoin="round"/>
             <path d="M18 16 h44 v10 H18 z"
                   fill="{{ card_color }}" stroke="{{ card_color }}" stroke-width="2.5" stroke-linejoin="round"/>
-            <circle cx="40" cy="56" r="14" fill="var(--bg)" stroke="{{ card_color }}" stroke-width="2"/>
+            <circle cx="40" cy="56" r="14" fill="{{ settings.color_bg }}" stroke="{{ card_color }}" stroke-width="2"/>
             <text x="40" y="60" text-anchor="middle" font-family="'Fraunces',serif" font-weight="900" font-size="9" fill="{{ card_color }}">{{ product.type | upcase | truncate: 5, '' }}</text>
           </svg>
         </div>
       {%- endif -%}
 
       <!-- Sticker NEW si nouveau produit -->
-      {%- if product.tags contains 'nouveaute' or product.created_at > 'now' | date_minus: 60 -%}
+      {%- assign sixty_days_ago = "now" | date: "%s" | minus: 5184000 | date: "%Y-%m-%dT%H:%M:%SZ" -%}
+      {%- if product.tags contains 'nouveaute' or product.created_at > sixty_days_ago -%}
         <div class="g-product-card__new">
           {%- render 'star-sticker', label: 'NEW', color: card_color, size: 80, rotate: -12 -%}
         </div>
