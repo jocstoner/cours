@@ -10,12 +10,12 @@
           size: 80 -%}
     </div>
 
-    <div class="m-label">{{ section.settings.label | default: '✉ Lettre d\'apothicaire' }}</div>
+    <div class="m-label">{{ section.settings.label | default: "✉ Lettre d'apothicaire" }}</div>
     <h2 class="m-newsletter-card__title">
       {{ section.settings.title | default: 'Une lettre, <em>par saison.</em>' }}
     </h2>
     <p class="m-newsletter-card__desc">
-      {{ section.settings.description | default: 'Recettes, plantes de saison, et les coulisses de l\'atelier. Pas de pub, promis.' }}
+      {{ section.settings.description | default: "Recettes, plantes de saison, et les coulisses de l'atelier. Pas de pub, promis." }}
     </p>
 
     {%- form 'customer', id: 'newsletter-form' -%}
@@ -30,7 +30,7 @@
                autocomplete="email"
                aria-label="Adresse e-mail">
         <button type="submit" class="m-btn-primary">
-          {{ section.settings.button_label | default: 'M\'inscrire' }}
+          {{ section.settings.button_label | default: "M'inscrire" }}
         </button>
       </div>
 

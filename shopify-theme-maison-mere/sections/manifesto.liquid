@@ -12,10 +12,10 @@
   <div class="m-manifesto__inner">
     <div class="m-label">{{ section.settings.label | default: 'Notre histoire en deux mots' }}</div>
     <h2 class="m-manifesto__title">
-      {{ section.settings.title | default: 'On a fondé cette maison parce qu\'on en avait <em>assez</em> de choisir entre <em>efficace</em> et <em>délicieux.</em>' }}
+      {{ section.settings.title | default: "On a fondé cette maison parce qu'on en avait <em>assez</em> de choisir entre <em>efficace</em> et <em>délicieux.</em>" }}
     </h2>
     <p class="m-manifesto__text">
-      {{ section.settings.text | default: 'Tout est cuisiné dans notre atelier d\'Avignon — petits lots, beurre AOP, plantes du jardin, miels d\'apiculteurs voisins. La règle qu\'on s\'est donnée : si on n\'en mangerait pas chez nous, on ne le vend pas.' }}
+      {{ section.settings.text | default: "Tout est cuisiné dans notre atelier d'Avignon — petits lots, beurre AOP, plantes du jardin, miels d'apiculteurs voisins. La règle qu'on s'est donnée : si on n'en mangerait pas chez nous, on ne le vend pas." }}
     </p>
     {%- if section.settings.cta_label != blank -%}
       <a href="{{ section.settings.cta_url | default: '/pages/notre-histoire' }}"

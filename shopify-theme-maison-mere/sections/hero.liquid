@@ -152,7 +152,7 @@
     {{ section.settings.title | default: 'Du <em>jardin</em> au placard.' }}
   </h1>
   <p style="margin-top:24px;font:400 19px/1.6 var(--body);color:var(--ink-mute);max-width:560px;margin:24px auto 0;">
-    {{ section.settings.description | default: 'Une maison de plantes médicinales pensée pour la cuisine et l\'apaisement.' }}
+    {{ section.settings.description | default: "Une maison de plantes médicinales pensée pour la cuisine et l'apaisement." }}
   </p>
   <div style="display:flex;gap:14px;margin-top:32px;justify-content:center;">
     <a href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}"

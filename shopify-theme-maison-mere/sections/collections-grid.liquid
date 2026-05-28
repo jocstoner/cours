@@ -63,7 +63,7 @@
 
     <!-- Fallback si pas de blocs configurés -->
     {%- if section.blocks.size == 0 -%}
-      {%- assign fallback_gammes = 'Miels|#d97a2a|#f5d4ad|thym|Récoltés à la cuillère|On parle aux abeilles. Elles travaillent. On embouteille.,Biscuits|#9c4f24|#e6c5a8|fleur|Au four à bois|Beurre, farine, plante du jardin.,Infusions|#5d7345|#c8d4b0|lavande|Séchées à l\'ombre|Des plantes entières, cueillies au juste moment.,Huiles|#7a5a24|#dcc794|thym|Macération solaire|On laisse les plantes infuser six semaines au soleil.,Ghees|#b88234|#ebd5a8|abeille|Sur feu doux|Beurre AOP, feu doux, patience.' | split: ',' -%}
+      {%- assign fallback_gammes = "Miels|#d97a2a|#f5d4ad|thym|Récoltés à la cuillère|On parle aux abeilles. Elles travaillent. On embouteille.,Biscuits|#9c4f24|#e6c5a8|fleur|Au four à bois|Beurre, farine, plante du jardin.,Infusions|#5d7345|#c8d4b0|lavande|Séchées à l'ombre|Des plantes entières, cueillies au juste moment.,Huiles|#7a5a24|#dcc794|thym|Macération solaire|On laisse les plantes infuser six semaines au soleil.,Ghees|#b88234|#ebd5a8|abeille|Sur feu doux|Beurre AOP, feu doux, patience." | split: ',' -%}
       {%- for gamme_str in fallback_gammes -%}
         {%- assign g = gamme_str | split: '|' -%}
         <div class="m-gamme-card" style="color:var(--ink);"
