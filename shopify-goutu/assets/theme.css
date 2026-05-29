@@ -1289,34 +1289,108 @@ h1, h2, h3, h4 {
 }
 
 /* ── Responsive ── */
+
+/* Prevent horizontal overflow on all viewports */
+html, body { overflow-x: hidden; }
+
 @media (max-width: 1280px) {
   :root { --page-x: 40px; }
 }
 
 @media (max-width: 1024px) {
   :root { --page-x: 32px; }
-  .g-gammes-grid { grid-template-columns: repeat(3, 1fr); }
+
+  .g-gammes-grid   { grid-template-columns: repeat(3, 1fr); }
   .g-products-grid { grid-template-columns: repeat(3, 1fr); }
-  .g-footer__grid { grid-template-columns: 1fr 1fr; }
-  .g-product-layout { grid-template-columns: 1fr; }
+  .g-footer__grid  { grid-template-columns: 1fr 1fr; }
+  .g-product-layout  { grid-template-columns: 1fr; gap: 36px; }
   .g-manifesto__grid { grid-template-columns: 1fr; }
-  .g-hero__content { max-width: 100%; }
+  .g-hero__content   { max-width: 100%; }
+  .g-product-thumbs  { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 768px) {
-  :root { --page-x: 20px; }
-  .g-gammes-grid { grid-template-columns: repeat(2, 1fr); }
-  .g-products-grid { grid-template-columns: repeat(2, 1fr); }
+  :root {
+    --page-x: 20px;
+    --hero-y: 50px;
+    --section-y: 60px;
+    --gap-x: 16px;
+  }
+
+  /* Header */
+  .g-header__inner { height: 64px; gap: 16px; }
+  .g-header__nav   { display: none; }
+
+  /* Hero */
+  .g-hero { min-height: 70vh; }
+
+  /* Grids */
+  .g-gammes-grid        { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .g-products-grid      { grid-template-columns: repeat(2, 1fr); }
   .g-testimonials__grid { grid-template-columns: 1fr; }
-  .g-commitments__grid { grid-template-columns: 1fr; }
-  .g-team-grid { grid-template-columns: repeat(3, 1fr); }
-  .g-footer__grid { grid-template-columns: 1fr; }
-  .g-timeline-item { grid-template-columns: 1fr; }
-  .g-header__nav { display: none; }
+  .g-commitments__grid  { grid-template-columns: 1fr; }
+  .g-team-grid          { grid-template-columns: repeat(3, 1fr); }
+  .g-footer__grid       { grid-template-columns: 1fr; }
+  .g-timeline-item      { grid-template-columns: 1fr; }
+
+  /* Product thumbnails */
+  .g-product-thumbs { grid-template-columns: repeat(3, 1fr); }
+
+  /* Hero CTAs — stack vertically */
+  .g-hero__ctas { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+  /* Newsletter form — stack */
+  .g-newsletter__form { flex-direction: column; max-width: 100%; }
+  .g-newsletter__form input[type="email"] { width: 100%; max-width: 100%; }
+  .g-newsletter__form .g-btn-primary { width: 100%; justify-content: center; }
+
+  /* Buy box — stack */
+  .g-buy-box__actions { flex-direction: column; }
+  .g-buy-box__actions .g-btn-primary { width: 100%; justify-content: center; }
+
+  /* Tabs */
+  .g-product-tabs__nav { flex-wrap: wrap; }
+
+  /* Cart drawer */
+  .g-cart-drawer { padding: 20px 16px; width: 100% !important; }
+
+  /* Marquee gap reduced */
+  .g-marquee__inner { gap: 40px; }
+
+  /* Collection chips */
+  .g-collection-chips { gap: 8px; }
+
+  /* Collection header title */
+  .g-collection-header__title { font-size: clamp(48px, 10vw, 72px) !important; }
 }
 
 @media (max-width: 480px) {
-  .g-gammes-grid { grid-template-columns: 1fr 1fr; }
+  :root { --page-x: 16px; }
+
+  .g-gammes-grid   { grid-template-columns: 1fr 1fr; }
   .g-products-grid { grid-template-columns: 1fr 1fr; }
-  .g-team-grid { grid-template-columns: repeat(2, 1fr); }
+  .g-team-grid     { grid-template-columns: repeat(2, 1fr); }
+
+  /* Product thumbnails — 2 per row */
+  .g-product-thumbs { grid-template-columns: repeat(2, 1fr); }
+
+  /* Hero CTAs — full width buttons */
+  .g-hero__ctas { width: 100%; }
+  .g-hero__ctas .g-btn-primary,
+  .g-hero__ctas .g-btn-ghost { width: 100%; justify-content: center; }
+
+  /* Buy box price — reduce */
+  .g-buy-box__price { font-size: 38px !important; }
+
+  /* Timeline year circle — reduce */
+  .g-timeline-item__year { width: 100px; height: 100px; font-size: 20px; }
+
+  /* Marquee gap further reduced */
+  .g-marquee__inner { gap: 28px; font-size: 16px; }
+
+  /* Hero min-height reduce */
+  .g-hero { min-height: 55vh; }
+
+  /* Collection grid */
+  .g-collection-grid { grid-template-columns: 1fr 1fr; }
 }

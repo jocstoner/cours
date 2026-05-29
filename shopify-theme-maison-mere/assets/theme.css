@@ -1375,6 +1375,10 @@ h1, h2, h3, h4 {
 .m-botanical { display: block; }
 
 /* ── Responsive ── */
+
+/* Prevent horizontal overflow on all viewports */
+html, body { overflow-x: hidden; }
+
 @media (max-width: 1280px) {
   :root {
     --page-x: 40px;
@@ -1386,32 +1390,89 @@ h1, h2, h3, h4 {
 @media (max-width: 1024px) {
   :root { --page-x: 32px; }
 
-  .m-gammes-grid { grid-template-columns: repeat(3, 1fr); }
+  .m-gammes-grid   { grid-template-columns: repeat(3, 1fr); }
   .m-products-grid { grid-template-columns: repeat(3, 1fr); }
-  .m-footer__grid { grid-template-columns: 1fr 1fr; }
-  .m-hero-postcard__grid { grid-template-columns: 1fr; }
+  .m-footer__grid  { grid-template-columns: 1fr 1fr; }
+  .m-hero-postcard__grid   { grid-template-columns: 1fr; }
   .m-hero-postcard__visual { display: none; }
-  .m-product-layout { grid-template-columns: 1fr; }
+  .m-product-layout { grid-template-columns: 1fr; gap: 36px; }
+  .m-product-thumbs { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 768px) {
-  :root { --page-x: 20px; }
+  :root {
+    --page-x: 20px;
+    --hero-y: 50px;
+    --section-y: 60px;
+    --gap-x: 16px;
+  }
 
-  .m-gammes-grid { grid-template-columns: repeat(2, 1fr); }
-  .m-products-grid { grid-template-columns: repeat(2, 1fr); }
-  .m-journal-grid { grid-template-columns: 1fr; }
-  .m-producers-grid { grid-template-columns: 1fr; }
-  .m-commitments-grid { grid-template-columns: repeat(2, 1fr); }
-  .m-team-grid { grid-template-columns: repeat(3, 1fr); }
-  .m-footer__grid { grid-template-columns: 1fr; }
-  .m-timeline-item { grid-template-columns: 1fr; }
-  .m-header__nav { display: none; }
-  .m-hero-magazine { grid-template-columns: 1fr; }
+  /* Header */
+  .m-header__inner { height: 64px; gap: 16px; }
+  .m-header__nav   { display: none; }
+
+  /* Grids */
+  .m-gammes-grid       { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .m-products-grid     { grid-template-columns: repeat(2, 1fr); }
+  .m-journal-grid      { grid-template-columns: 1fr; }
+  .m-producers-grid    { grid-template-columns: 1fr; }
+  .m-commitments-grid  { grid-template-columns: repeat(2, 1fr); }
+  .m-team-grid         { grid-template-columns: repeat(3, 1fr); }
+  .m-footer__grid      { grid-template-columns: 1fr; }
+  .m-timeline-item     { grid-template-columns: 1fr; }
+  .m-hero-magazine     { grid-template-columns: 1fr; }
+
+  /* Product thumbnails */
+  .m-product-thumbs { grid-template-columns: repeat(3, 1fr); }
+
+  /* Hero CTAs — stack vertically */
+  .m-hero-postcard__ctas,
+  .m-hero-magazine__ctas { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+  /* Newsletter form — stack */
+  .m-newsletter-form { flex-direction: column; max-width: 100%; }
+  .m-newsletter-input { width: 100%; max-width: 100%; }
+  .m-newsletter-form .m-btn-primary { width: 100%; justify-content: center; }
+
+  /* Buy box — stack */
+  .m-buy-box__actions { flex-direction: column; }
+  .m-buy-box__actions .m-btn-primary { width: 100%; justify-content: center; }
+
+  /* Tabs */
+  .m-tabs__nav { gap: 8px; flex-wrap: wrap; }
+
+  /* Cart drawer */
+  .m-cart-drawer { padding: 20px 16px; }
+
+  /* Product page title */
+  .m-product-title { font-size: clamp(40px, 9vw, 64px) !important; }
 }
 
 @media (max-width: 480px) {
-  .m-gammes-grid { grid-template-columns: 1fr 1fr; }
-  .m-products-grid { grid-template-columns: 1fr 1fr; }
+  :root { --page-x: 16px; }
+
+  .m-gammes-grid      { grid-template-columns: 1fr 1fr; }
+  .m-products-grid    { grid-template-columns: 1fr 1fr; }
   .m-commitments-grid { grid-template-columns: 1fr; }
-  .m-team-grid { grid-template-columns: repeat(2, 1fr); }
+  .m-team-grid        { grid-template-columns: repeat(2, 1fr); }
+
+  /* Product thumbnails — 2 per row */
+  .m-product-thumbs { grid-template-columns: repeat(2, 1fr); }
+
+  /* Hero CTAs — full width buttons */
+  .m-hero-postcard__ctas,
+  .m-hero-magazine__ctas { width: 100%; }
+  .m-hero-postcard__ctas .m-btn-primary,
+  .m-hero-postcard__ctas .m-btn-ghost,
+  .m-hero-magazine__ctas .m-btn-primary,
+  .m-hero-magazine__ctas .m-btn-ghost { width: 100%; justify-content: center; }
+
+  /* Products section row gap */
+  .m-products-grid { row-gap: 32px; }
+
+  /* Buy box price — reduce */
+  .m-buy-box__price { font-size: 36px !important; }
+
+  /* Timeline year */
+  .m-timeline-item__year { min-width: 60px; font-size: 14px; }
 }
