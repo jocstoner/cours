@@ -4,10 +4,7 @@
   <div class="m-newsletter-card">
     <!-- Cachet poste -->
     <div style="position:absolute;top:16px;left:16px;opacity:0.7;">
-      {%- render 'cachet',
-          label: section.settings.stamp_label | default: 'POSTE · AVIGNON',
-          center: '▲',
-          size: 80 -%}
+      {%- render 'cachet', label: section.settings.stamp_label, default: 'POSTE · AVIGNON', center: '▲', size: 80 -%}
     </div>
 
     <div class="m-label">{{ section.settings.label | default: "✉ Lettre d'apothicaire" }}</div>
@@ -88,3 +85,18 @@
 }
 {% endschema %}
 
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%- render 'cachet',
+              label: section.settings.stamp_label | default: 'POSTE · AVIGNON',
+              center: '▲',
+              size: 80 -%}
+  to: "{%- render 'cachet', label: section.settings.stamp_label, default: 'POSTE ·
+    AVIGNON', center: '▲', size: 80 -%}"
+  position: 239..350
+{% endcomment %}

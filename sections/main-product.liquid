@@ -60,11 +60,7 @@
 
       <!-- Cachet format/certif -->
       <div style="position:absolute;top:30px;right:30px;">
-        {%- render 'cachet',
-            label: '★ ' | append: product.variants.first.title | append: ' ★',
-            center: '✿',
-            size: 100,
-            color: tint_color -%}
+        {%- render 'cachet', label: '★ ', append: ' ★', center: '✿', size: 100, color: tint_color -%}
       </div>
 
       {%- if product.metafields.custom.origin != blank -%}
@@ -311,3 +307,19 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%- render 'cachet',
+                label: '★ ' | append: product.variants.first.title | append: ' ★',
+                center: '✿',
+                size: 100,
+                color: tint_color -%}
+  to: "{%- render 'cachet', label: '★ ', append: ' ★', center: '✿', size: 100, color:
+    tint_color -%}"
+  position: 2989..3082
+{% endcomment %}

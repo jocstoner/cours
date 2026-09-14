@@ -3,10 +3,7 @@
 <section class="m-manifesto">
   <!-- Cachet décoratif -->
   <div style="position:absolute;top:40px;right:40px;opacity:0.6;">
-    {%- render 'cachet',
-        label: section.settings.stamp_label | default: 'MAISON MÈRE',
-        center: '★',
-        size: 160 -%}
+    {%- render 'cachet', label: section.settings.stamp_label, default: 'MAISON MÈRE', center: '★', size: 160 -%}
   </div>
 
   <div class="m-manifesto__inner">
@@ -73,3 +70,18 @@
 }
 {% endschema %}
 
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%- render 'cachet',
+            label: section.settings.stamp_label | default: 'MAISON MÈRE',
+            center: '★',
+            size: 160 -%}
+  to: "{%- render 'cachet', label: section.settings.stamp_label, default: 'MAISON
+    MÈRE', center: '★', size: 160 -%}"
+  position: 183..291
+{% endcomment %}
